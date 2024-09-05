@@ -1,28 +1,39 @@
-{% extends 'main/base.html' %} 
-{% block title %}
-  User Type
-{%endblock %}
-
-{%block content %}
-    <p class="choice_text">Choose wether you want to be a customer or a company</p>
-    
-    <div style="margin-top: 70px;">
-        <div style="margin-left: 50px" class="choice">
-            <div class="company img" id="company">
-                <a href="/register/company">
-                    <img src="/static/css/company.png" alt="company" >
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netfix: Choose Your Account Type</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="choice_text">Choose whether you want to be a customer or a company</h1>
+        
+        <div class="choice-container">
+            <div class="choice">
+                <a href="{% url 'register_company' %}">
+                    <div class="img-container">
+                        <i class="fas fa-building fa-3x"></i>
+                    </div>
+                    <p class="label_images">Company</p>
                 </a>
             </div>
-            <p class="label_images">Company</p>
-        </div>
 
-        <div style="float: right; margin-right: 50px;" class="choice">
-            <div class="img" id="customer">
-                <a href="/register/customer">
-                    <img src="/static/css/customer.png" alt="customer">
+            <div class="choice">
+                <a href="{% url 'register_customer' %}">
+                    <div class="img-container">
+                        <i class="fas fa-user fa-3x"></i>
+                    </div>
+                    <p class="label_images">Customer</p>
                 </a>
             </div>
-            <p>Customer</p>
         </div>
     </div>
-{% endblock %}
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

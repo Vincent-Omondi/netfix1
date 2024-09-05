@@ -3,15 +3,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.views.generic import CreateView
-from axes.decorators import axes_dispatch  # type: ignore
 from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
 from .models import User
 
-
-
 def register(request):
     return render(request, 'users/register.html')
-
 
 class CustomerSignUpView(CreateView):
     model = User
@@ -27,7 +23,6 @@ class CustomerSignUpView(CreateView):
         login(self.request, user)
         return redirect('/')
 
-
 class CompanySignUpView(CreateView):
     model = User
     form_class = CompanySignUpForm
@@ -42,8 +37,6 @@ class CompanySignUpView(CreateView):
         login(self.request, user)
         return redirect('/')
 
-
-@axes_dispatch
 def loginUserView(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
@@ -51,17 +44,19 @@ def loginUserView(request):
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
 
-            # Authenticate user
-            user = authenticate(request, username=email, password=password)
+            try:
+                user = User.objects.get(email=email)
 
-            if user is not None:
-                # Log in the user
-                login(request, user)
-                return redirect('users/profile.html')  # Redirect to a desired page after successful login
-            else:
-                # Authentication failed
-                form.add_error(None, "Invalid email or password.")
-    else:
-        form = UserLoginForm()
+                user = authenticate(request, username=user.username, password=user.password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('user/profile.html')
+                else:
 
-    return render(request, 'users/login.html', {'form': form})
+                    form.add_error(None, "Invalid credentials.")
+            except User.DoesNotExist:
+                form.add_error(None, "User Does Not Exist")
+        else:
+            form = UserLoginForm()
+        return render(request, 'users/login.html', {'form': form})
+

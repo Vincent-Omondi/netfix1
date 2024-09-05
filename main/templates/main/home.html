@@ -1,11 +1,48 @@
-{% extends 'main/base.html' %} 
-    {% block title %}
-        NetFix
-    {% endblock %}
+{% extends 'main/base.html' %}
+{% load static %}
 
 {% block content %}
-    <div style="margin-top: 50px;">
-        <p class="site_title">NetFix</p>
-        <img class="home_logo" src="static/css/logo.png" alt="logo">
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Book trusted help for home tasks</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="I need help with...">
+                <button>Get help today</button>
+            </div>
+        </div>
     </div>
+</section>
+
+<section class="popular-tasks">
+    <div class="container">
+        <div class="popular-tasks-header">
+            <h2>Popular Tasks</h2>
+            <a href="#" class="see-all">See all</a>
+        </div>
+        <div class="task-slider">
+            <div class="task-grid">
+                <!-- Task items... -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="features-grid">
+            <!-- Feature items... -->
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Get started with TaskRabbit today</h2>
+        <div class="cta-buttons">
+            <a href="#" class="cta-button">Book a Task</a>
+            <a href="#" class="cta-button">Become a Tasker</a>
+        </div>
+    </div>
+</section>
 {% endblock %}

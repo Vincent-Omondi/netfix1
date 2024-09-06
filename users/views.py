@@ -1,5 +1,7 @@
 # users/views.py
 
+from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.views.generic import CreateView
@@ -37,6 +39,7 @@ class CompanySignUpView(CreateView):
         login(self.request, user)
         return redirect('/')
 
+@csrf_exempt
 def loginUserView(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
@@ -46,17 +49,17 @@ def loginUserView(request):
 
             try:
                 user = User.objects.get(email=email)
-
-                user = authenticate(request, username=user.username, password=user.password)
-                if user is not None:
-                    login(request, user)
-                    return redirect('user/profile.html')
+                authenticated_user = authenticate(request, username=user.username, password=password)
+                if authenticated_user is not None:
+                    login(request, authenticated_user)
+                    return redirect('user_profile')  # Make sure this URL name is defined in your urls.py
                 else:
-
-                    form.add_error(None, "Invalid credentials.")
+                    messages.error(request, "Invalid credentials.")
             except User.DoesNotExist:
-                form.add_error(None, "User Does Not Exist")
+                messages.error(request, "User does not exist.")
         else:
-            form = UserLoginForm()
-        return render(request, 'users/login.html', {'form': form})
-
+            messages.error(request, "Form is not valid.")
+    else:
+        form = UserLoginForm()
+    
+    return render(request, 'users/login.html', {'form': form})

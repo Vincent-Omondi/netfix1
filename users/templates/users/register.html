@@ -1,39 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netfix: Choose Your Account Type</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h1 class="choice_text">Choose whether you want to be a customer or a company</h1>
-        
-        <div class="choice-container">
-            <div class="choice">
-                <a href="{% url 'register_company' %}">
-                    <div class="img-container">
-                        <i class="fas fa-building fa-3x"></i>
-                    </div>
-                    <p class="label_images">Company</p>
-                </a>
-            </div>
+{% extends 'main/base.html' %}
 
-            <div class="choice">
-                <a href="{% url 'register_customer' %}">
-                    <div class="img-container">
-                        <i class="fas fa-user fa-3x"></i>
-                    </div>
-                    <p class="label_images">Customer</p>
-                </a>
-            </div>
+{% block content %}
+<div class="register-container">
+    <h1 class="choice-text">Choose whether you want to be a customer or a company</h1>
+    
+    <div class="choice-container">
+        <div class="choice">
+            <a href="{% url 'users:register_company' %}">
+                <div class="img-container">
+                    <i class="fas fa-building fa-3x"></i>
+                </div>
+                <p class="label-images">Company</p>
+            </a>
+        </div>
+
+        <div class="choice">
+            <a href="{% url 'users:register_customer' %}">
+                <div class="img-container">
+                    <i class="fas fa-user fa-3x"></i>
+                </div>
+                <p class="label-images">Customer</p>
+            </a>
         </div>
     </div>
-
-    <script src="{% static 'script.js' %}"></script>
-</body>
-</html>
+</div>
+{% endblock %}

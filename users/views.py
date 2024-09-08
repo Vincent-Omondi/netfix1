@@ -5,8 +5,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.views.generic import CreateView
+from django.db import models
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+
 from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
-from .models import User
+from .models import User  # Assuming User model is defined in models.py
 
 def register(request):
     return render(request, 'users/register.html')
@@ -49,12 +52,17 @@ def loginUserView(request):
 
             try:
                 user = User.objects.get(email=email)
-                authenticated_user = authenticate(request, username=user.username, password=password)
+                authenticated_user = authenticate(request, username=email, password=password)
+                
+                # print(f"User found: {user}")  # debugging line
+                # print(f"Password provided: {password}")  # debugging line 
+                # print(f"Authentication result: {authenticated_user}")  # debugging line
+                
                 if authenticated_user is not None:
                     login(request, authenticated_user)
-                    return redirect('user_profile')  # Make sure this URL name is defined in your urls.py
+                    return redirect('/')  # Make sure this URL name is defined in your urls.py
                 else:
-                    messages.error(request, "Invalid credentials.")
+                    messages.error(request, f"Authentication failed for user: {email}")
             except User.DoesNotExist:
                 messages.error(request, "User does not exist.")
         else:

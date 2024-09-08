@@ -1,11 +1,24 @@
 {% load static %}
 <header>
     <nav class="container">
-        <img src="{% static 'logo.svg' %}" alt="Netfix" class="logo">
+        <a href="{% url 'main:home' %}" class="logo-link">
+            <img src="{% static 'logo.svg' %}" alt="Netfix" class="logo">
+        </a>
         <ul class="nav-links">
-            <li><a href="{% url 'login_user' %}">Log In</a></li>
-            <li><a href="{% url 'register_company' %}">Become a Tasker</a></li>
-            <li><a href="{% url 'register_customer' %}" class="sign-up-btn">Sign Up</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'main:home' %}">Home</a></li>
+                {% if user.is_company %}
+                    <li><a href="{% url 'services:services_list' %}">My Tasks</a></li>
+                {% else %}
+                    <li><a href="{% url 'services:services_create' %}">Create Task</a></li>
+                {% endif %}
+                <li><a href="{% url 'main:logout' %}" class="logout-btn">Log Out</a></li>
+                <!-- <li><a href="{% url 'main:logout' %}" class="logout-btn">Profile</a></li> -->
+            {% else %}
+                <li><a href="{% url 'users:login_user' %}">Log In</a></li>
+                <li><a href="{% url 'users:register_company' %}">Become a Tasker</a></li>
+                <li><a href="{% url 'users:register' %}" class="sign-up-btn">Sign Up</a></li>
+            {% endif %}
         </ul>
     </nav>
 </header>

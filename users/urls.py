@@ -13,4 +13,5 @@ urlpatterns = [
     path('customer/', v.CustomerSignUpView.as_view(), name='register_customer'),
     path('login/', v.loginUserView, name='login_user'),
     path('dashboard/', v.user_dashboard, name='dashboard'),
+    path('profile/<str:username>/', v.profile, name='profile'),
 ]

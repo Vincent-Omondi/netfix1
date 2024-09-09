@@ -556,3 +556,107 @@ select#id_field_of_work {
     font-size: 14px; 
 }
 
+
+/* Profile */
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.profile-info h1 {
+    font-size: 32px;
+    color: #00a7bd;
+    margin: 0 0 10px 0;
+}
+
+.profile-info p {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+}
+
+.profile-type {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00a7bd;
+    background-color: #e6f7f9;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #51535f;
+    margin: 40px 0 20px 0;
+    text-align: center;
+}
+
+.service-item {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.service-item a {
+    color: #00a7bd;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.service-item a:hover {
+    text-decoration: underline;
+}
+
+.service-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.service-info {
+    color: #666;
+}
+
+.company-link {
+    font-size: 14px;
+    color: #888;
+}
+
+.company-link a {
+    color: #00a7bd;
+    text-decoration: none;
+}
+
+.company-link a:hover {
+    text-decoration: underline;
+}
+
+.line {
+    border-top: 1px solid #e0e0e0;
+    margin: 20px 0;
+}
+
+.no-services {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 30px;
+}

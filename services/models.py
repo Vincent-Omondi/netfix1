@@ -1,3 +1,5 @@
+# services/models.py
+
 from django.db import models
 
 # Create your models here.
@@ -32,3 +34,13 @@ class Service(models.Model):
 
     def __str__(self):
         return self.name
+
+class ServiceHistory(models.Model):
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
+    request_date = models.DateTimeField(auto_now_add=True)
+    # You can add more fields as needed, such as status, completion date, etc.
+
+    def __str__(self):
+        return f"{self.customer.user.username} - {self.service.name}"

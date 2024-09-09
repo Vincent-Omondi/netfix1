@@ -1,0 +1,34 @@
+<!-- services/templates/services/create.html -->
+{% extends 'main/base.html' %}
+{% block title %}
+    Create New Service
+{% endblock %}
+
+{% block content %}
+    <h1>Create New Service</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="price_hour">Price per Hour:</label>
+            <input type="number" class="form-control" id="price_hour" name="price_hour" step="0.01" min="0" required>
+        </div>
+        <div class="form-group">
+            <label for="field">Service Field:</label>
+            <select class="form-control" id="field" name="field">
+                <option value="">Select a service field</option>
+                {% for field in request.user.company.field_of_work %}
+                <option value="{{ field }}">{{ get_field_display }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Service</button>
+    </form>
+{% endblock %}

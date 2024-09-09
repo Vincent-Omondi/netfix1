@@ -10,6 +10,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.decorators import login_required
 from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
 from .models import User, Customer, Company 
+from services.models import Service, ServiceHistory 
 
 def register(request):
     return render(request, 'users/register.html')
@@ -85,19 +86,33 @@ def user_dashboard(request):
 @login_required
 def customer_dashboard(request):
     customer = request.user.customer
-    # Add logic to get customer's requested services
+    service_history = ServiceHistory.objects.filter(customer=customer)
     context = {
         'customer': customer,
-        # Add requested services to context
+        'service_history': service_history,
     }
     return render(request, 'users/customer_dashboard.html', context)
 
 @login_required
 def company_dashboard(request):
     company = request.user.company
-    # Add logic to get company's provided services
+    services = Service.objects.filter(company=company)
     context = {
         'company': company,
-        # Add provided services to context
+        'services': services,
     }
     return render(request, 'users/company_dashboard.html', context)
+
+@login_required
+def profile(request, username):
+    user = User.objects.get(username=username)
+    context = {'user': user}
+    
+    if user.is_customer:
+        service_history = ServiceHistory.objects.filter(customer=user.customer)
+        context['sh'] = service_history
+    else:
+        services = Service.objects.filter(company=user.company)
+        context['services'] = services
+    
+    return render(request, 'users/profile.html', context)

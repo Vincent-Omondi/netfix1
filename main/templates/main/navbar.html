@@ -8,12 +8,12 @@
             {% if user.is_authenticated %}
                 <li><a href="{% url 'main:home' %}">Home</a></li>
                 {% if user.is_company %}
-                    <li><a href="{% url 'services:services_list' %}">My Tasks</a></li>
+                    <li><a href="{% url 'services:services_list' %}">My Services</a></li>
                 {% else %}
-                    <li><a href="{% url 'services:services_create' %}">Create Task</a></li>
+                    <li><a href="{% url 'services:services_create' %}">Requested Services</a></li>
                 {% endif %}
+                <li><a href="{% url 'users:profile' request.user.username %}">Profile</a></li>
                 <li><a href="{% url 'main:logout' %}" class="logout-btn">Log Out</a></li>
-                <!-- <li><a href="{% url 'main:logout' %}" class="logout-btn">Profile</a></li> -->
             {% else %}
                 <li><a href="{% url 'users:login_user' %}">Log In</a></li>
                 <li><a href="{% url 'users:register_company' %}">Become a Tasker</a></li>

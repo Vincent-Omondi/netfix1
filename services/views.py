@@ -14,33 +14,38 @@ def service_list(request):
     services = Service.objects.all().order_by("-date")
     return render(request, 'services/list.html', {'services': services})
 
+def service_detail_or_field(request, id_or_field):
+    try:
+        # Try to get a service by id
+        service = get_object_or_404(Service, id=int(id_or_field))
+        return render(request, 'services/fields.html', {'services': [service], 'field': service.field})
+    except ValueError:
+        # If id_or_field is not an integer, treat it as a field
+        return service_field(request, id_or_field)
 
 def index(request, id):
     service = Service.objects.get(id=id)
     return render(request, 'services/single_service.html', {'service': service})
 
 
+
 @login_required
 def services_create(request):
     if not hasattr(request.user, 'company'):
         return redirect('/')
-
+    
     if request.method == 'POST':
-        form = CreateNewService(request.POST, choices=dict(Service.choices))
+        form = CreateNewService(request.POST)
         if form.is_valid():
-            service = Service(
-                company=request.user.company,
-                name=form.cleaned_data['name'],
-                description=form.cleaned_data['description'],
-                price_hour=form.cleaned_data['price_hour'],
-                field=form.cleaned_data['field']
-            )
+            service = form.save(commit=False)
+            service.company = request.user.company
             service.save()
             return redirect('services:index', id=service.id)
     else:
-        form = CreateNewService(choices=dict(Service.choices))
-
+        form = CreateNewService()
+    
     return render(request, 'services/create.html', {'form': form})
+
 
 
 def service_field(request, field):

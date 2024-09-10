@@ -27,7 +27,7 @@ class CustomerSignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('users:dashboard')
+        return redirect('/')
 
 class CompanySignUpView(CreateView):
     model = User
@@ -41,7 +41,7 @@ class CompanySignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('users:dashboard')
+        return redirect('/')
 
 @csrf_exempt
 def loginUserView(request):
@@ -54,14 +54,9 @@ def loginUserView(request):
             try:
                 user = User.objects.get(email=email)
                 authenticated_user = authenticate(request, username=email, password=password)
-                
-                # print(f"User found: {user}")  # debugging line
-                # print(f"Password provided: {password}")  # debugging line 
-                # print(f"Authentication result: {authenticated_user}")  # debugging line
-                
                 if authenticated_user is not None:
                     login(request, authenticated_user)
-                    return redirect('users:dashboard')  # Make sure this URL name is defined in your urls.py
+                    return redirect('/')  # Make sure this URL name is defined in your urls.py
                 else:
                     messages.error(request, f"Authentication failed for user: {email}")
             except User.DoesNotExist:
@@ -73,35 +68,6 @@ def loginUserView(request):
     
     return render(request, 'users/login.html', {'form': form})
 
-@login_required
-def user_dashboard(request):
-    if hasattr(request.user, 'customer'):
-        return customer_dashboard(request)
-    elif hasattr(request.user, 'company'):
-        return company_dashboard(request)
-    else:
-        # Handle unexpected user type
-        return redirect('main:home')
-
-@login_required
-def customer_dashboard(request):
-    customer = request.user.customer
-    service_history = ServiceHistory.objects.filter(customer=customer)
-    context = {
-        'customer': customer,
-        'service_history': service_history,
-    }
-    return render(request, 'users/customer_dashboard.html', context)
-
-@login_required
-def company_dashboard(request):
-    company = request.user.company
-    services = Service.objects.filter(company=company)
-    context = {
-        'company': company,
-        'services': services,
-    }
-    return render(request, 'users/company_dashboard.html', context)
 
 @login_required
 def profile(request, username):

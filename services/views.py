@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from users.models import Company, Customer, User
 
 from .models import Service
-from .forms import CreateNewService, RequestServiceForm
+from .forms import CreateNewService
 
 
 def service_list(request):
@@ -32,18 +32,18 @@ def index(request, id):
 
 @login_required
 def services_create(request):
-    if not hasattr(request.user, 'company'):
-        return redirect('/')
+    # if not hasattr(request.user, 'company'):
+    #     return redirect('/')
     
     if request.method == 'POST':
-        form = CreateNewService(request.POST)
+        form = CreateNewService(request.POST, company=request.user.company)
         if form.is_valid():
             service = form.save(commit=False)
             service.company = request.user.company
             service.save()
             return redirect('services:index', id=service.id)
     else:
-        form = CreateNewService()
+        form = CreateNewService(company=request.user.company)
     
     return render(request, 'services/create.html', {'form': form})
 

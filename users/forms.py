@@ -47,18 +47,18 @@ class CustomerSignUpForm(UserCreationForm):
 
 class CompanySignUpForm(UserCreationForm):
     field_of_work_choices = [
-        ('AC', 'Air Conditioner'),
-        ('AIO', 'All in One'),
-        ('CAR', 'Carpentry'),
-        ('ELE', 'Electricity'),
-        ('GAR', 'Gardening'),
-        ('HM', 'Home Machines'),
-        ('HK', 'Housekeeping'),
-        ('ID', 'Interior Design'),
-        ('LOC', 'Locks'),
-        ('PAI', 'Painting'),
-        ('PLU', 'Plumbing'),
-        ('WH', 'Water Heaters'),
+        ('Air Conditioner', 'Air Conditioner'),
+        ('All in One', 'All in One'),
+        ('Carpentry', 'Carpentry'),
+        ('Electricity', 'Electricity'),
+        ('Gardening', 'Gardening'),
+        ('Home Machines', 'Home Machines'),
+        ('Housekeeping', 'Housekeeping'),
+        ('Interior Design', 'Interior Design'),
+        ('Locks', 'Locks'),
+        ('Painting', 'Painting'),
+        ('Plumbing', 'Plumbing'),
+        ('Water Heaters', 'Water Heaters'),
     ]
     field_of_work = forms.ChoiceField(
         choices=field_of_work_choices,
@@ -78,10 +78,10 @@ class CompanySignUpForm(UserCreationForm):
                 company.save()
 
         return user
+
     class Meta:
         model = User
         fields = ("username", "email",)
-
 
 class UserLoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))

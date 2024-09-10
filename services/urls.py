@@ -13,4 +13,5 @@ urlpatterns = [
     path('<int:id>/request_service/', v.request_service, name='request_service'),
     path('<slug:field>/', v.service_field, name='services_field'),
     path('<str:id_or_field>/', v.service_detail_or_field, name='detail_or_field'),
+    path('<int:id>/', v.service_detail_or_field, name='detail'),
 ]

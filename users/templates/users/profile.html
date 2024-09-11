@@ -27,7 +27,7 @@
     {% if user.is_customer %}
         {% for service in sh %}
             <div class="service-item">
-                <a href="{% url 'services:detail' service.service.id %}">{{service.service.name}}</a> ({{service.service.field}})
+                <a href="{% url 'services:index' id=service.id %}">{{service.service.name}}</a> ({{service.service.field}})
                 <div class="service-details">
                     <div class="service-info">
                         <span>Price: {{service.price}}</span>
@@ -45,9 +45,10 @@
     {% else %}
         {% for service in services %}
             <div class="service-item">
-                <a href="{% url 'services:detail' service.id %}">{{service.name}}</a>
+                <a href="{% url 'services:index' id=service.id %}">{{service.name}}</a>
                 <div class="service-details">
                     <div class="service-info">
+                        <p>{{ service.description|truncatewords:20 }}</p>
                         <span>Price: {{service.price_hour}}€/hour</span>
                     </div>
                 </div>

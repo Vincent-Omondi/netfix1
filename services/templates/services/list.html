@@ -3,23 +3,25 @@
     Services List
 {% endblock %}
 {% block content %}
-    <p class="title">Services</p>
-    {% if user.is_company %}
-        <a class="create_service" href="{% url 'services:services_create' %}"> Create Service</a>
-    {% endif %}
-    <div class='services_list'>
-        {% if services %}
-            {% for service in services %}
-                <div class="service-item">
-                    <h3><a href="{% url 'services:index' id=service.id %}">{{ service.name }}</a></h3>
-                    <p>{{ service.description|truncatewords:20 }}</p>
-                    <p>Price: €{{ service.price_hour }}/hour</p>
-                    <p>Field: {{ service.field }}</p>
-                    <p>by: {{ service.company.user.username }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <h2>Sorry, no services available yet</h2>
+    <div class="services_list_container">
+        <p class="title">Services</p>
+        {% if user.is_company %}
+            <a class="create_service" href="{% url 'services:services_create' %}">Create Service</a>
         {% endif %}
-     </div>
+        <div class='services_list'>
+            {% if services %}
+                {% for service in services %}
+                    <div class="service-item">
+                        <h3><a href="{% url 'services:index' id=service.id %}">{{ service.name }}</a></h3>
+                        <p>{{ service.description|truncatewords:20 }}</p>
+                        <p>Price: €{{ service.price_hour }}/hour</p>
+                        <p>Field: {{ service.field }}</p>
+                        <p>by: {{ service.company.user.username }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2>Sorry, no services available yet</h2>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

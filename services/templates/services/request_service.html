@@ -1,11 +1,17 @@
+<!-- services/templated/services/request_service.html -->
+
 {% extends 'main/base.html' %}
 {% block title %}
     Request Service
 {% endblock %}
-
 {% block content %}
-    <p class="title">Service Request Details</p>
+<div class="container">
+    <h2 class="title">Request Service: {{ service.name }}</h2>
+    <p>Price per hour: ${{ service.price_hour }}</p>
     <form method="POST">
-        <button type="submit">Request</button>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit Request</button>
     </form>
+</div>
 {% endblock %}

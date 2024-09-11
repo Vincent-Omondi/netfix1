@@ -25,40 +25,44 @@
         {% endif %}
     </h2>
     {% if user.is_customer %}
-        <div class="services_list">
-            {% for service in sh %}
-                <div class="service-item">
-                    <a href="{% url 'services:index' id=service.id %}">{{service.service.name}}</a> ({{service.service.field}})
-                    <div class="service-details">
-                        <div class="service-info">
-                            <span>Price: {{service.price}}</span>
-                            <span>Date: {{ service.request_date }}</span>
-                        </div>
-                        <p class="company-link">
-                            by <a href="{% url 'users:profile' service.service.company.user.username %}">{{service.service.company.user.username}}</a>
-                        </p>
-                    </div>
+    <div class="services_list">
+        {% for service in sh %}
+        <div class="service-item">
+            <a href="{% url 'services:index' id=service.service.id %}">{{service.service.name}}</a> ({{service.service.field}})
+            <div class="service-details">
+                <div class="service-info">
+                    <span>Price: ${{service.price}}</span>
+                    <span>Date: {{ service.request_date|date:"F d, Y H:i" }}</span>
+                    <span>Duration: {{ service.service_time }} hour(s)</span>
+                    <span>Address: {{ service.address }}</span>
                 </div>
-            {% empty %}
-                <p class="no-services">No services requested yet.</p>
-            {% endfor %}
+                <p class="company-link">
+                    by <a href="{% url 'users:profile' service.service.company.user.username %}">{{service.service.company.user.username}}</a>
+                </p>
+            </div>
         </div>
+        {% empty %}
+        <p class="no-services">No services requested yet.</p>
+        {% endfor %}
+    </div>
     {% else %}
-        <div class="services_list">
-            {% for service in services %}
-                <div class="service-item">
-                    <a href="{% url 'services:index' id=service.id %}">{{service.name}}</a>
-                    <div class="service-details">
-                        <div class="service-info">
-                            <p>{{ service.description|truncatewords:20 }}</p>
-                            <span>Price: {{service.price_hour}}€/hour</span>
-                        </div>
-                    </div>
+    <div class="services_list">
+        {% for service in services %}
+        <div class="service-item">
+            <a href="{% url 'services:index' id=service.id %}">{{service.name}}</a>
+            <div class="service-details">
+                <div class="service-info">
+                    <p>{{ service.description|truncatewords:20 }}</p>
+                    <span>Price: ${{service.price_hour}}/hour</span>
+                    <span>Field: {{ service.field }}</span>
+                    <span>Created: {{ service.date|date:"F d, Y" }}</span>
                 </div>
-            {% empty %}
-                <p class="no-services">No services available yet.</p>
-            {% endfor %}
+            </div>
         </div>
+        {% empty %}
+        <p class="no-services">No services available yet.</p>
+        {% endfor %}
+    </div>
     {% endif %}
 </div>
 {% endblock %}

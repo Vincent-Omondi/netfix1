@@ -3,7 +3,7 @@
 {% extends 'main/base.html' %}
 {% block title %}{{ user.username }}'s Profile{% endblock %}
 {% block content %}
-<div class="container">
+<div class="profile_container">
     <div class="profile-header">
         <div class="profile-info">
             <h1>{{ user.username }}{% if user.is_customer %} ({{user.customer.age}} y/o){% endif %}</h1>
@@ -25,37 +25,40 @@
         {% endif %}
     </h2>
     {% if user.is_customer %}
-        {% for service in sh %}
-            <div class="service-item">
-                <a href="{% url 'services:index' id=service.id %}">{{service.service.name}}</a> ({{service.service.field}})
-                <div class="service-details">
-                    <div class="service-info">
-                        <span>Price: {{service.price}}</span>
-                        <span> • </span>
-                        <span>Date: {{ service.request_date }}</span>
+        <div class="services_list">
+            {% for service in sh %}
+                <div class="service-item">
+                    <a href="{% url 'services:index' id=service.id %}">{{service.service.name}}</a> ({{service.service.field}})
+                    <div class="service-details">
+                        <div class="service-info">
+                            <span>Price: {{service.price}}</span>
+                            <span>Date: {{ service.request_date }}</span>
+                        </div>
+                        <p class="company-link">
+                            by <a href="{% url 'users:profile' service.service.company.user.username %}">{{service.service.company.user.username}}</a>
+                        </p>
                     </div>
-                    <p class="company-link">
-                        by <a href="{% url 'users:profile' service.service.company.user.username %}">{{service.service.company.user.username}}</a>
-                    </p>
                 </div>
-            </div>
-        {% empty %}
-            <p class="no-services">No services requested yet.</p>
-        {% endfor %}
+            {% empty %}
+                <p class="no-services">No services requested yet.</p>
+            {% endfor %}
+        </div>
     {% else %}
-        {% for service in services %}
-            <div class="service-item">
-                <a href="{% url 'services:index' id=service.id %}">{{service.name}}</a>
-                <div class="service-details">
-                    <div class="service-info">
-                        <p>{{ service.description|truncatewords:20 }}</p>
-                        <span>Price: {{service.price_hour}}€/hour</span>
+        <div class="services_list">
+            {% for service in services %}
+                <div class="service-item">
+                    <a href="{% url 'services:index' id=service.id %}">{{service.name}}</a>
+                    <div class="service-details">
+                        <div class="service-info">
+                            <p>{{ service.description|truncatewords:20 }}</p>
+                            <span>Price: {{service.price_hour}}€/hour</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% empty %}
-            <p class="no-services">No services available yet.</p>
-        {% endfor %}
+            {% empty %}
+                <p class="no-services">No services available yet.</p>
+            {% endfor %}
+        </div>
     {% endif %}
 </div>
 {% endblock %}

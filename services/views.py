@@ -7,8 +7,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from users.models import Company, Customer, User
 
-from .models import Service
-from .forms import CreateNewService
+from .models import Service, ServiceHistory
+from .forms import CreateNewService, RequestServiceForm
 
 
 def service_list(request):
@@ -59,3 +59,23 @@ def service_field(request, field):
 
 def request_service(request, id):
     return render(request, 'services/request_service.html', {})
+
+
+@login_required
+def request_service(request, id):
+    service = get_object_or_404(Service, id=id)
+    if request.method == 'POST':
+        form = RequestServiceForm(request.POST)
+        if form.is_valid():
+            service_history = form.save(commit=False)
+            service_history.service = service
+            service_history.customer = request.user.customer
+            service_history.price = service.price_hour * form.cleaned_data['service_time']
+            service_history.save()
+            return redirect('users:profile')  # Redirect to user's profile after successful request
+    else:
+        form = RequestServiceForm()
+    
+    return render(request, 'services/request_service.html', {'form': form, 'service': service})
+
+

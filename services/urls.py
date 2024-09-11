@@ -14,4 +14,5 @@ urlpatterns = [
     path('<slug:field>/', v.service_field, name='services_field'),
     path('<str:id_or_field>/', v.service_detail_or_field, name='detail_or_field'),
     path('<int:id>/', v.service_detail_or_field, name='detail'),
+    path('profile/<str:username>/', v.profile, name='profile'),
 ]

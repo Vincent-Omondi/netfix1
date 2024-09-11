@@ -72,10 +72,12 @@ def request_service(request, id):
             service_history.customer = request.user.customer
             service_history.price = service.price_hour * form.cleaned_data['service_time']
             service_history.save()
-            return redirect('users:profile')  # Redirect to user's profile after successful request
+            return redirect('users:profile', username=request.user.username)
     else:
         form = RequestServiceForm()
     
     return render(request, 'services/request_service.html', {'form': form, 'service': service})
 
+def profile(request, uername):
 
+    pass

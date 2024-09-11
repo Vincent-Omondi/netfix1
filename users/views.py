@@ -73,12 +73,10 @@ def loginUserView(request):
 def profile(request, username):
     user = User.objects.get(username=username)
     context = {'user': user}
-    
     if user.is_customer:
-        service_history = ServiceHistory.objects.filter(customer=user.customer)
+        service_history = ServiceHistory.objects.filter(customer=user.customer).order_by('-request_date')
         context['sh'] = service_history
     else:
-        services = Service.objects.filter(company=user.company)
+        services = Service.objects.filter(company=user.company).order_by('-date')
         context['services'] = services
-    
     return render(request, 'users/profile.html', context)

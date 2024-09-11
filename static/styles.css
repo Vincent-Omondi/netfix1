@@ -591,26 +591,89 @@ select#id_field_of_work {
     border-radius: 20px;
 }
 
+.profile_container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+
+/* services list */
+.services_list_container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
 .title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #51535f;
-    margin: 40px 0 20px 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: #00a7bd;
+    margin-bottom: 30px;
     text-align: center;
+}
+
+.create_service {
+    display: inline-block;
+    background-color: #00a7bd;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.create_service:hover {
+    background-color: #008ca1;
+}
+
+.services_list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 20px;
 }
 
 .service-item {
     background-color: #fff;
     border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .service-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.service-item h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.service-item h3 a {
+    color: #00a7bd;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.service-details {
+    margin-top: 15px;
+}
+
+.service-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.service-info span {
+    font-size: 14px;
+    color: #666;
 }
 
 .service-item a {
@@ -618,21 +681,33 @@ select#id_field_of_work {
     text-decoration: none;
     font-weight: 600;
     font-size: 18px;
+    margin-bottom: 10px;
+    display: block;
 }
 
-.service-item a:hover {
-    text-decoration: underline;
+.service-item p {
+    margin: 8px 0;
+    font-size: 14px;
 }
 
-.service-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
+.service-item p:last-child {
+    margin-top: 15px;
+    font-style: italic;
+    color: #888;
 }
 
-.service-info {
-    color: #666;
+
+
+@media (max-width: 900px) {
+    .services_list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .services_list {
+        grid-template-columns: 1fr;
+    }
 }
 
 .company-link {
@@ -659,6 +734,93 @@ select#id_field_of_work {
     font-size: 18px;
     color: #888;
     margin-top: 30px;
+}
+
+/* Single service container */
+
+.single-service-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.service_info_header {
+    border-bottom: 2px solid #00a7bd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.service_info_header h1 {
+    font-size: 32px;
+    color: #00a7bd;
+    margin-bottom: 10px;
+}
+
+.service_info_header h5 {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+}
+
+.service_info_header h5 a {
+    color: #00a7bd;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.service_info_header h5 a:hover {
+    color: #008ca1;
+}
+
+.service-field {
+    font-size: 22px;
+    color: #51535f;
+    margin-bottom: 20px;
+}
+
+.service-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #51535f;
+    margin-bottom: 30px;
+}
+
+.request-service-btn {
+    display: inline-block;
+    background-color: #00a7bd;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.request-service-btn:hover {
+    background-color: #008ca1;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .service-container {
+        padding: 20px;
+    }
+
+    .service_info_header h1 {
+        font-size: 28px;
+    }
+
+    .service_info_header h5 {
+        font-size: 16px;
+    }
+
+    .service-field {
+        font-size: 20px;
+    }
 }
 
 /* Services Dropdown */

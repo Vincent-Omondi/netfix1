@@ -2,8 +2,8 @@
 
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, authenticate, get_user_model
 from django.views.generic import CreateView
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -12,6 +12,8 @@ from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
 from .models import User, Customer, Company 
 from services.models import Service, ServiceHistory 
 
+
+User = get_user_model()
 def register(request):
     return render(request, 'users/register.html')
 
@@ -76,6 +78,7 @@ def profile(request, username):
     if user.is_customer:
         service_history = ServiceHistory.objects.filter(customer=user.customer).order_by('-request_date')
         context['sh'] = service_history
+        context['age'] = user.customer.age()
     else:
         services = Service.objects.filter(company=user.company).order_by('-date')
         context['services'] = services

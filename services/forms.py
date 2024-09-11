@@ -4,6 +4,7 @@
 from django import forms
 from users.models import Company
 from .models import Service
+from .models import ServiceHistory
 
 class CreateNewService(forms.ModelForm):
     class Meta:
@@ -28,3 +29,12 @@ class CreateNewService(forms.ModelForm):
             else:
                 # Otherwise, only show the company's selected service
                 self.fields['field'].choices = [(company.field, company.field)]
+
+
+class RequestServiceForm(forms.ModelForm):
+    address = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Enter service address'}))
+    service_time = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={'placeholder': 'Enter service time in hours'}))
+
+    class Meta:
+        model = ServiceHistory
+        fields = ['address', 'service_time']

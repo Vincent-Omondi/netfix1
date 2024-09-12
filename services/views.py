@@ -3,10 +3,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 
 from users.models import Company, Customer, User
 
-from .models import Service
+from .models import Service, ServiceHistory
 from .forms import CreateNewService, RequestServiceForm
 
 
@@ -31,18 +32,18 @@ def index(request, id):
 
 @login_required
 def services_create(request):
-    if not hasattr(request.user, 'company'):
-        return redirect('/')
+    # if not hasattr(request.user, 'company'):
+    #     return redirect('/')
     
     if request.method == 'POST':
-        form = CreateNewService(request.POST)
+        form = CreateNewService(request.POST, company=request.user.company)
         if form.is_valid():
             service = form.save(commit=False)
             service.company = request.user.company
             service.save()
             return redirect('services:index', id=service.id)
     else:
-        form = CreateNewService()
+        form = CreateNewService(company=request.user.company)
     
     return render(request, 'services/create.html', {'form': form})
 
@@ -58,3 +59,25 @@ def service_field(request, field):
 
 def request_service(request, id):
     return render(request, 'services/request_service.html', {})
+
+
+@login_required
+def request_service(request, id):
+    service = get_object_or_404(Service, id=id)
+    if request.method == 'POST':
+        form = RequestServiceForm(request.POST)
+        if form.is_valid():
+            service_history = form.save(commit=False)
+            service_history.service = service
+            service_history.customer = request.user.customer
+            service_history.price = service.price_hour * form.cleaned_data['service_time']
+            service_history.save()
+            return redirect('users:profile', username=request.user.username)
+    else:
+        form = RequestServiceForm()
+    
+    return render(request, 'services/request_service.html', {'form': form, 'service': service})
+
+def profile(request, uername):
+
+    pass

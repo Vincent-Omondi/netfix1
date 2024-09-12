@@ -40,7 +40,8 @@ class ServiceHistory(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     request_date = models.DateTimeField(auto_now_add=True)
-    # You can add more fields as needed, such as status, completion date, etc.
+    address = models.CharField(max_length=200)
+    service_time = models.IntegerField()
 
     def __str__(self):
         return f"{self.customer.user.username} - {self.service.name}"

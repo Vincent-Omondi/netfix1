@@ -1,6 +1,9 @@
 # users/models.py
 
 from django.db import models
+from django.utils import timezone
+from dateutil.relativedelta import relativedelta
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -55,7 +58,7 @@ class User(AbstractUser):
     )
 
     def __str__(self):
-        return self.email
+        return self.username
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
@@ -63,6 +66,10 @@ class Customer(models.Model):
 
     def __str__(self):
         return f"{self.user.id} - {self.user.username}"
+
+    def age(self):
+        today =  timezone.now().date()
+        return relativedelta(today, self.birth).years
 
 class Company(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)

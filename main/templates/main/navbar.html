@@ -5,13 +5,25 @@
             <img src="{% static 'logo.svg' %}" alt="Netfix" class="logo">
         </a>
         <ul class="nav-links">
+            <li><a href="{% url 'main:home' %}">Home</a></li>
+            <li class="services-dropdown">
+                <a href="{% url 'services:services_list' %}" class="dropdown-toggle">Services</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Air Conditioner</a></li>
+                    <li><a href="#">All in One</a></li>
+                    <li><a href="#">Carpentry</a></li>
+                    <li><a href="#">Electricity</a></li>
+                    <li><a href="#">Gardening</a></li>
+                    <li><a href="#">Home Machines</a></li>
+                    <li><a href="#">Housekeeping</a></li>
+                    <li><a href="#">Interior Design</a></li>
+                    <li><a href="#">Locks</a></li>
+                    <li><a href="#">Painting</a></li>
+                    <li><a href="#">Plumbing</a></li>
+                    <li><a href="#">Water Heaters</a></li>
+                </ul>
+            </li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'main:home' %}">Home</a></li>
-                {% if user.is_company %}
-                    <li><a href="{% url 'services:services_list' %}">My Services</a></li>
-                {% else %}
-                    <li><a href="{% url 'services:services_create' %}">Requested Services</a></li>
-                {% endif %}
                 <li><a href="{% url 'users:profile' request.user.username %}">Profile</a></li>
                 <li><a href="{% url 'main:logout' %}" class="logout-btn">Log Out</a></li>
             {% else %}

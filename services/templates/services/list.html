@@ -5,10 +5,22 @@
 {% block content %}
     <div class="services_list_container">
         <p class="title">Services</p>
+        
         {% if user.is_company %}
             <a class="create_service" href="{% url 'services:services_create' %}">Create Service</a>
         {% endif %}
-        <div class='services_list'>
+        
+        <div class="sort-options">
+            <form method="GET" action="">
+                <label for="sort_by">Sort by:</label>
+                <select name="sort_by" id="sort_by" onchange="this.form.submit()">
+                    <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Newest</option>
+                    <option value="requests" {% if sort_by == 'requests' %}selected{% endif %}>Most Requested</option>
+                </select>
+            </form>
+        </div>
+        
+        <div class="services_list">
             {% if services %}
                 {% for service in services %}
                     <div class="service-item">

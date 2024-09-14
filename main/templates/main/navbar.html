@@ -9,18 +9,18 @@
             <li class="services-dropdown">
                 <a href="{% url 'services:services_list' %}" class="dropdown-toggle">Services</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Air Conditioner</a></li>
-                    <li><a href="#">All in One</a></li>
-                    <li><a href="#">Carpentry</a></li>
-                    <li><a href="#">Electricity</a></li>
-                    <li><a href="#">Gardening</a></li>
-                    <li><a href="#">Home Machines</a></li>
-                    <li><a href="#">Housekeeping</a></li>
-                    <li><a href="#">Interior Design</a></li>
-                    <li><a href="#">Locks</a></li>
-                    <li><a href="#">Painting</a></li>
-                    <li><a href="#">Plumbing</a></li>
-                    <li><a href="#">Water Heaters</a></li>
+                    <li><a href="{% url 'services:services_field' 'air-conditioner' %}">Air Conditioner</a></li>
+                    <li><a href="{% url 'services:services_field' 'all-in-one' %}">All in One</a></li>
+                    <li><a href="{% url 'services:services_field' 'carpentry' %}">Carpentry</a></li>
+                    <li><a href="{% url 'services:services_field' 'electricity' %}">Electricity</a></li>
+                    <li><a href="{% url 'services:services_field' 'gardening' %}">Gardening</a></li>
+                    <li><a href="{% url 'services:services_field' 'home-machines' %}">Home Machines</a></li>
+                    <li><a href="{% url 'services:services_field' 'house-keeping' %}">Housekeeping</a></li>
+                    <li><a href="{% url 'services:services_field' 'interior-design' %}">Interior Design</a></li>
+                    <li><a href="{% url 'services:services_field' 'locks' %}">Locks</a></li>
+                    <li><a href="{% url 'services:services_field' 'painting' %}">Painting</a></li>
+                    <li><a href="{% url 'services:services_field' 'plumbing' %}">Plumbing</a></li>
+                    <li><a href="{% url 'services:services_field' 'water-heaters' %}">Water Heaters</a></li>
                 </ul>
             </li>
             {% if user.is_authenticated %}

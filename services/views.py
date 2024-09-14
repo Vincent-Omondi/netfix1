@@ -2,7 +2,8 @@
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required 
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
 from users.models import Company, Customer, User
@@ -12,8 +13,16 @@ from .forms import CreateNewService, RequestServiceForm
 
 
 def service_list(request):
-    services = Service.objects.all().order_by("-date")
-    return render(request, 'services/list.html', {'services': services})
+    sort_by = request.GET.get('sort_by', 'date')  # Default sorting by date
+
+    if sort_by == 'requests':
+        # Sort by most requested services (counting ServiceHistory records)
+        services = Service.objects.annotate(request_count=Count('servicehistory')).order_by('-request_count')
+    else:
+        # Sort by creation date (default)
+        services = Service.objects.all().order_by('-date')
+
+    return render(request, 'services/list.html', {'services': services, 'sort_by': sort_by})
 
 def service_detail_or_field(request, id_or_field):
     try:
@@ -46,15 +55,6 @@ def services_create(request):
         form = CreateNewService(company=request.user.company)
     
     return render(request, 'services/create.html', {'form': form})
-
-
-
-def service_field(request, field):
-    # search for the service present in the url
-    field = field.replace('-', ' ').title()
-    services = Service.objects.filter(
-        field=field)
-    return render(request, 'services/field.html', {'services': services, 'field': field})
 
 
 def request_service(request, id):
@@ -97,3 +97,16 @@ def service_field(request, field):
 
     return render(request, 'services/field.html', {'services': services, 'field': field, 'sort_by': sort_by})
 
+
+@login_required
+def delete_service(request, id):
+    service = get_object_or_404(Service, id=id)
+    
+    # Check if the current user is the owner of the service
+    if request.user.company == service.company:
+        service.delete()
+        messages.success(request, 'Service deleted successfully.')
+    else:
+        messages.error(request, 'You do not have permission to delete this service.')
+    
+    return redirect('users:profile', username=request.user.username)

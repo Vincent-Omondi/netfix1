@@ -81,3 +81,19 @@ def request_service(request, id):
 def profile(request, uername):
 
     pass
+
+from django.db.models import Count
+
+def service_field(request, field):
+    field = field.replace('-', ' ').title()
+    sort_by = request.GET.get('sort_by', 'date')  # Default sorting by date
+
+    if sort_by == 'requests':
+        # Sort by most requested services (counting ServiceHistory records)
+        services = Service.objects.filter(field=field).annotate(request_count=Count('servicehistory')).order_by('-request_count')
+    else:
+        # Sort by creation date (default)
+        services = Service.objects.filter(field=field).order_by('-date')
+
+    return render(request, 'services/field.html', {'services': services, 'field': field, 'sort_by': sort_by})
+

@@ -1,37 +1,45 @@
+<!-- services/templates/services/fields.html -->
 {% extends 'main/base.html' %}
 {% block title %}
     {{ field }} Services List
 {% endblock %}
 {% block content %}
-    <p class="title">{{ field }} Services</p>
-    
-    <div class="sort-options">
-        <form method="GET" action="">
-            <label for="sort_by">Sort by:</label>
-            <select name="sort_by" id="sort_by" onchange="this.form.submit()">
-                <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Newest</option>
-                <option value="requests" {% if sort_by == 'requests' %}selected{% endif %}>Most Requested</option>
-            </select>
-        </form>
-    </div>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/services.css' %}">
 
-    {% if services %}
-        <ul class='services_list'>
-            {% for service in services %}
-                <div style="display: ruby;">
-                    <div class='service_list_info'>
-                        {% include "services/_star_rating.html" with rating=service.rating %}
-                        <li><a href="/services/{{service.id}}">{{ service.name }}</a>-- {{ service.price_hour }}€/hour</li>
-                        <pre>{{ service.description }}</pre>
+    <div class="services_field_container">
+        <p class="title">{{ field }} Services</p>
+        
+        <div class="sort-options">
+            <form method="GET" action="">
+                <label for="sort_by">Sort by:</label>
+                <select name="sort_by" id="sort_by" onchange="this.form.submit()">
+                    <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Newest</option>
+                    <option value="requests" {% if sort_by == 'requests' %}selected{% endif %}>Most Requested</option>
+                </select>
+            </form>
+        </div>
+
+        {% if services %}
+            <ul class='services_list'>
+                {% for service in services %}
+                <div class="service-item">
+                    <h3><a href="/services/{{service.id}}">{{ service.name }}</a></h3>
+                    <p>{{ service.description }}</p>
+                    {% include "services/_star_rating.html" with rating=service.rating %}
+                    <div class="service-meta">
+                        <p class = "price">Price: €{{ service.price_hour }}/hour</p>
+                        <p>Field: {{ service.field }}</p>
+                        <p>by: {{ service.company.user.username }}</p>
                     </div>
-                    <p style="display:block; margin: 0; float: right;font-size: small; margin-right: 30px;">by <a href="/users/profile/{{service.company.user}}">{{service.company.user}}</a></p>
-                </div>
-                {% if forloop.counter != services|length %}
-                    <div class="line"></div>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    {% else %}
-        <h2>Sorry. No {{ field }} services available</h2>
-    {% endif %}
+                <div>
+                    {% if forloop.counter != services|length %}
+                        <div class="line"></div>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h2>Sorry. No {{ field }} services available</h2>
+        {% endif %}
+    </div>
 {% endblock %}

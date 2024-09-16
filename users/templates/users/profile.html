@@ -30,6 +30,7 @@
         <div class="service-item">
             <a href="{% url 'services:index' id=service.service.id %}">{{service.service.name}}</a> ({{service.service.field}})
             <div class="service-details">
+                {% include "services/_star_rating.html" with rating=service.rating %}
                 <div class="service-info">
                     <span>Price: ${{service.price}}</span>
                     <span>Date: {{ service.request_date|date:"F d, Y H:i" }}</span>
@@ -50,6 +51,7 @@
         {% for service in services %}
         <div class="service-item">
             <a href="{% url 'services:index' id=service.id %}">{{service.name}}</a>
+            {% include "services/_star_rating.html" with rating=service.rating %}
             <div class="service-details">
                 <div class="service-info">
                     <p>{{ service.description|truncatewords:20 }}</p>

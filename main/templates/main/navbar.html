@@ -1,8 +1,9 @@
+<!-- main/templates/main/navbar.html -->
 {% load static %}
 <header>
     <nav class="container">
         <a href="{% url 'main:home' %}" class="logo-link">
-            <img src="{% static 'logo.svg' %}" alt="Netfix" class="logo">
+            <img src="{% static 'logo.png' %}" alt="Netfix" class="logo">
         </a>
         <ul class="nav-links">
             <li><a href="{% url 'main:home' %}">Home</a></li>

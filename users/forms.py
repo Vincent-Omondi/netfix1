@@ -53,7 +53,7 @@ class CompanySignUpForm(UserCreationForm):
         ('Electricity', 'Electricity'),
         ('Gardening', 'Gardening'),
         ('Home Machines', 'Home Machines'),
-        ('Housekeeping', 'Housekeeping'),
+        ('House keeping', 'House keeping'),
         ('Interior Design', 'Interior Design'),
         ('Locks', 'Locks'),
         ('Painting', 'Painting'),

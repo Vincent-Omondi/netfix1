@@ -1,8 +1,14 @@
+<!-- services/templates/services/single_service.html -->
+
 {% extends 'main/base.html' %}
 {% block title %}
     {{ service.name }}
 {% endblock %}
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'rating.css' %}">
+<script src="{% static 'rating.js' %}" defer></script>
+
 <div class="single-service-container">
     <div class="rating-section">
         {% if request.user.is_customer %}
@@ -28,138 +34,4 @@
         <a href="/services/{{service.id}}/request_service/" class="request-service-btn">Request Service</a>
     {% endif %}
 </div>
-
-<style>
-    .star-rating {
-        width: 100%;
-        max-width: 300px;
-        margin: 20px 0;
-    }
-    #star-container {
-        display: flex;
-        justify-content: space-between;
-        font-size: 48px;
-        touch-action: none;
-    }
-    .star {
-        position: relative;
-        color: #ccc;
-        cursor: pointer;
-    }
-    .star-fill {
-        position: absolute;
-        top: 0;
-        left: 0;
-        overflow: hidden;
-        color: #ffd700;
-    }
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const starContainer = document.getElementById('star-container');
-    const ratingInput = document.getElementById('rating-input');
-    const rateForm = document.getElementById('rate-form');
-    const starCount = 5;
-    let isDragging = false;
-    let currentRating = parseFloat(ratingInput.value) || 0;
-
-    function createStar(index) {
-        const star = document.createElement('div');
-        star.classList.add('star');
-        star.innerHTML = '★';
-        star.dataset.index = index + 1;
-
-        const starFill = document.createElement('div');
-        starFill.classList.add('star-fill');
-        starFill.innerHTML = '★';
-        star.appendChild(starFill);
-
-        return star;
-    }
-
-    function updateStars(rating) {
-        const stars = starContainer.children;
-        for (let i = 0; i < stars.length; i++) {
-            const starFill = stars[i].querySelector('.star-fill');
-            if (i < Math.floor(rating)) {
-                starFill.style.width = '100%';
-            } else if (i === Math.floor(rating)) {
-                starFill.style.width = `${(rating % 1) * 100}%`;
-            } else {
-                starFill.style.width = '0';
-            }
-        }
-    }
-
-    function calculateRating(event) {
-        const containerRect = starContainer.getBoundingClientRect();
-        const x = event.clientX - containerRect.left;
-        let rating = (x / containerRect.width) * starCount;
-        rating = Math.max(0, Math.min(starCount, rating));
-        return Math.round(rating * 10) / 10; // Round to nearest 0.1
-    }
-
-    function handleStarEvent(event) {
-        const rating = calculateRating(event);
-        updateStars(rating);
-        currentRating = rating;
-        ratingInput.value = rating;
-    }
-
-    function submitRating() {
-        ratingInput.value = currentRating.toFixed(1);
-        rateForm.submit();
-    }
-
-    // Create stars
-    for (let i = 0; i < starCount; i++) {
-        starContainer.appendChild(createStar(i));
-    }
-
-    // Event listeners
-    starContainer.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        handleStarEvent(e);
-    });
-
-    starContainer.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-            handleStarEvent(e);
-        }
-    });
-
-    starContainer.addEventListener('mouseup', () => {
-        isDragging = false;
-        submitRating();
-    });
-
-    starContainer.addEventListener('mouseleave', () => {
-        if (isDragging) {
-            isDragging = false;
-            submitRating();
-        }
-    });
-
-    starContainer.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        handleStarEvent(e.touches[0]);
-    });
-
-    starContainer.addEventListener('touchmove', (e) => {
-        if (isDragging) {
-            e.preventDefault();
-            handleStarEvent(e.touches[0]);
-        }
-    });
-
-    starContainer.addEventListener('touchend', () => {
-        isDragging = false;
-        submitRating();
-    });
-
-    // Initial star update
-    updateStars(currentRating);
-});
-</script>
 {% endblock %}

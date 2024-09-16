@@ -1,33 +1,48 @@
+<!-- users/templates/users/register_customer.html -->
+
+
 {% extends 'main/base.html' %}
 
 {% block title %}Customer Registration - Netfix{% endblock %}
 
 {% block content %}
+
 <div class="registration-container">
     <h1>Customer Registration</h1>
+
     <form method="POST" class="registration-form">
         {% csrf_token %}
-        
+
+        <!-- Non-field errors (e.g., related to the whole form) -->
+        {{ form.non_field_errors }}
+
         <label for="id_username">Username:</label>
         {{ form.username }}
+        {{ form.username.errors }}
 
         <label for="id_email">Email:</label>
         {{ form.email }}
+        {{ form.email.errors }}
 
         <label for="id_password1">Password:</label>
         {{ form.password1 }}
+        {{ form.password1.errors }}
 
         <label for="id_password2">Confirm Password:</label>
         {{ form.password2 }}
+        {{ form.password2.errors }}
 
         <label for="id_birth">Date of Birth:</label>
         {{ form.birth }}
+        {{ form.birth.errors }}
 
         <button type="submit" name="register">Register</button>
     </form>
+
     <div class="login-section">
         <p>Have an account?</p>
         <a href="{% url 'users:login_user' %}" class="login-link">Log in</a>
     </div>
 </div>
+
 {% endblock %}

@@ -28,3 +28,24 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 });
+
+
+let currentPosition = 0;
+const taskGrid = document.getElementById('taskGrid');
+const taskItems = document.querySelectorAll('.task-item');
+const itemWidth = 330; // 300px width + 30px margin-right
+
+function slideServices(direction) {
+    const maxPosition = (taskItems.length - 3) * itemWidth;
+    currentPosition += direction * itemWidth;
+    
+    if (currentPosition < 0) currentPosition = 0;
+    if (currentPosition > maxPosition) currentPosition = maxPosition;
+
+    taskGrid.style.transform = `translateX(-${currentPosition}px)`;
+}
+
+// Optional: Auto-slide every 5 seconds
+// setInterval(() => {
+//     slideServices(1);
+// }, 5000);

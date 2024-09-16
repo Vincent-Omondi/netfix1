@@ -14,6 +14,7 @@ from django.views.decorators.http import require_POST
 from django.db.models import Avg
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
+from django.http import JsonResponse
 
 
 def service_list(request):
@@ -133,8 +134,10 @@ def rate_service(request, service_history_id):
         if not (1 <= rating <= 5):
             raise ValidationError('Rating must be between 1 and 5.')
     except (ValueError, ValidationError):
-        messages.error(request, 'Invalid rating value. Please provide a number between 1 and 5.')
-        return redirect('services:index', id=service_history.service.id)
+        return JsonResponse({
+            'success': False,
+            'error': 'Invalid rating value. Please provide a number between 1 and 5.'
+        })
     
     service_history.rating = rating
     service_history.save()
@@ -150,4 +153,9 @@ def rate_service(request, service_history_id):
         service_history.service.rating = round(average_rating, 1)
         service_history.service.save()
     
-    return redirect('services:index', id=service_history.service.id)
+    return JsonResponse({
+        'success': True,
+        'message': 'Rating updated successfully.',
+        'new_rating': rating,
+        'new_average_rating': service_history.service.rating
+    })

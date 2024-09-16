@@ -25,6 +25,7 @@
                 {% for service in services %}
                     <div class="service-item">
                         <h3><a href="{% url 'services:index' id=service.id %}">{{ service.name }}</a></h3>
+                        {% include "services/_star_rating.html" with rating=service.rating %}
                         <p>{{ service.description|truncatewords:20 }}</p>
                         <p>Price: €{{ service.price_hour }}/hour</p>
                         <p>Field: {{ service.field }}</p>

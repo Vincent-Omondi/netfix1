@@ -18,20 +18,24 @@
     <div class="container">
         <div class="popular-tasks-header">
             <h2>Most Requested Services</h2>
-            <a href="{% url 'services:services_list' %}" class="see-all">See all</a>
+            <a href="/services/" class="see-all">See all</a>
         </div>
         <div class="task-slider">
-            <div class="task-grid">
+            <div class="task-grid" id="taskGrid">
                 {% for service in most_requested_services %}
                     <div class="task-item">
                         <h3>{{ service.name }}</h3>
                         <p>{{ service.description|truncatewords:20 }}</p>
                         <p2>by <a href="/company/{{service.company.user}}">{{service.company.user}}</a></p2>
-                        <a href="{% url 'services:index' service.id %}" class="btn btn-primary">Book Now</a>
+                        <a href="/services/{{ service.id }}/" class="btn btn-primary">Book Now</a>
                     </div>
                 {% empty %}
                     <p>No services available at the moment.</p>
                 {% endfor %}
+            </div>
+            <div class="slider-controls">
+                <button class="slider-control prev" onclick="slideServices(-1)">&#10094;</button>
+                <button class="slider-control next" onclick="slideServices(1)">&#10095;</button>
             </div>
         </div>
     </div>

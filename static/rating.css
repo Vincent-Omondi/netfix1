@@ -1,0 +1,25 @@
+/* static/rating.css */
+
+.star-rating {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px 0;
+}
+#star-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 48px;
+    touch-action: none;
+}
+.star {
+    position: relative;
+    color: #ccc;
+    cursor: pointer;
+}
+.star-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    color: #ffd700;
+}

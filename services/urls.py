@@ -16,5 +16,5 @@ urlpatterns = [
     path('<int:id>/', v.service_detail_or_field, name='detail'),
     path('profile/<str:username>/', v.profile, name='profile'),
     path('delete/<int:id>/', v.delete_service, name='delete_service'),
-
+    path('<int:service_history_id>/rate/', v.rate_service, name='rate_service'),
 ]

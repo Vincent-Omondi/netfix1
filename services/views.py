@@ -10,6 +10,10 @@ from users.models import Company, Customer, User
 
 from .models import Service, ServiceHistory
 from .forms import CreateNewService, RequestServiceForm
+from django.views.decorators.http import require_POST
+from django.db.models import Avg
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 
 
 def service_list(request):
@@ -35,7 +39,14 @@ def service_detail_or_field(request, id_or_field):
 
 def index(request, id):
     service = Service.objects.get(id=id)
-    return render(request, 'services/single_service.html', {'service': service})
+    
+    # Fetch the service history for the logged-in customer if available
+    service_history = ServiceHistory.objects.filter(service=service, customer=request.user.customer).first() if request.user.is_authenticated and hasattr(request.user, 'customer') else None
+
+    return render(request, 'services/single_service.html', {
+        'service': service,
+        'service_history': service_history,
+    })
 
 
 
@@ -110,3 +121,33 @@ def delete_service(request, id):
         messages.error(request, 'You do not have permission to delete this service.')
     
     return redirect('users:profile', username=request.user.username)
+
+
+@login_required
+@require_POST
+def rate_service(request, service_history_id):
+    service_history = get_object_or_404(ServiceHistory, id=service_history_id, customer=request.user.customer)
+    
+    try:
+        rating = float(request.POST.get('rating', 0))
+        if not (1 <= rating <= 5):
+            raise ValidationError('Rating must be between 1 and 5.')
+    except (ValueError, ValidationError):
+        messages.error(request, 'Invalid rating value. Please provide a number between 1 and 5.')
+        return redirect('services:index', id=service_history.service.id)
+    
+    service_history.rating = rating
+    service_history.save()
+    
+    # Calculate the new average rating
+    average_rating = ServiceHistory.objects.filter(
+        service=service_history.service, 
+        rating__isnull=False
+    ).aggregate(Avg('rating'))['rating__avg']
+    
+    # Update the service's rating
+    if average_rating is not None:
+        service_history.service.rating = round(average_rating, 1)
+        service_history.service.save()
+    
+    return redirect('services:index', id=service_history.service.id)

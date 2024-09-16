@@ -13,8 +13,8 @@ class Service(models.Model):
     name = models.CharField(max_length=40)
     description = models.TextField()
     price_hour = models.DecimalField(decimal_places=2, max_digits=100)
-    rating = models.IntegerField(validators=[MinValueValidator(
-        0), MaxValueValidator(5)], default=0)
+    rating = models.FloatField(validators=[MinValueValidator(
+        0), MaxValueValidator(5)],  null=True, default=None)
     choices = (
         ('Air Conditioner', 'Air Conditioner'),
         ('Carpentry', 'Carpentry'),
@@ -42,6 +42,7 @@ class ServiceHistory(models.Model):
     request_date = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=200)
     service_time = models.IntegerField()
+    rating = models.FloatField(validators=[MinValueValidator(1), MaxValueValidator(5)], null=True, blank=True)  # Rating field
 
     def __str__(self):
         return f"{self.customer.user.username} - {self.service.name}"

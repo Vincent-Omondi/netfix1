@@ -49,3 +49,25 @@ function slideServices(direction) {
 // setInterval(() => {
 //     slideServices(1);
 // }, 5000);
+
+document.getElementById('rate-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const formData = new FormData(form);
+  
+  fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+          'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          alert('Rating submitted successfully! New average rating: ' + data.average_rating);
+      } else {
+          alert('Error submitting rating: ' + data.error);
+      }
+  });
+});

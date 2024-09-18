@@ -1,10 +1,13 @@
+<!-- users/templates/users/login.html -->
 {% extends 'main/base.html' %}
 
 {% block title %}User Login - Netfix{% endblock %}
 
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/users.css' %}">
 <div class="login-container">
-    <h1>Login</h1>
+    <h1>Welcome Back</h1>
 
     {% if messages %}
     <ul class="messages">
@@ -35,7 +38,7 @@
             <div class="error-message">{{ form.password.errors }}</div>
         {% endif %}
 
-        <button type="submit">Login</button>
+        <button type="submit">Log In</button>
     </form>
     <div class="login-section">
         <p>Don‘t have a profile</p>

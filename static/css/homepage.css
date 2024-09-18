@@ -442,3 +442,33 @@
     background-color: var(--color-background);
     color: var(--color-primary);
   }
+
+  /* logout */
+.logout-section {
+    text-align: center;
+    padding: 60px 0;
+}
+
+.logout-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.logout-section p {
+    margin-bottom: 30px;
+}
+
+.logout-section .btn {
+    display: inline-block;
+    background-color: #00a7bd;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.logout-section .btn:hover {
+    background-color: #008ca1;
+}

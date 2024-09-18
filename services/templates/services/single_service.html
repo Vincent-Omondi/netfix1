@@ -1,5 +1,4 @@
 <!-- services/templates/services/single_service.html -->
-
 {% extends 'main/base.html' %}
 {% block title %}
     {{ service.name }}
@@ -8,6 +7,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'rating.css' %}">
 <script src="{% static 'rating.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'css/services.css' %}">
 
 <div class="single-service-container">
     <div class="rating-section">

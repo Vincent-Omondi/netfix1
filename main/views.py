@@ -16,7 +16,7 @@ def logout(request):
 def home(request):
     most_requested_services = Service.objects.annotate(
         request_count = Count('servicehistory')
-    ).filter(request_count__gt=0).order_by('-request_count')[:10]
+    ).filter(request_count__gt=0).order_by('-request_count')[:8]
 
     context = {
         'most_requested_services': most_requested_services,

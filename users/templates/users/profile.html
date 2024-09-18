@@ -3,6 +3,8 @@
 {% extends 'main/base.html' %}
 {% block title %}{{ user.username }}'s Profile{% endblock %}
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/users.css' %}">
 <div class="profile_container">
     <div class="profile-header">
         <div class="profile-info">

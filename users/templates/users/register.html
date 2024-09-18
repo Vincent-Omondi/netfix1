@@ -1,8 +1,10 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/users.css' %}">
 <div class="register-container">
-    <h1 class="choice-text">Choose whether you want to be a customer or a company</h1>
+    <h1 class="choice-text">Choose your registration type</h1>
     
     <div class="choice-container">
         <div class="choice">

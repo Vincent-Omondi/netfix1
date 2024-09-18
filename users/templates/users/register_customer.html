@@ -6,7 +6,8 @@
 {% block title %}Customer Registration - Netfix{% endblock %}
 
 {% block content %}
-
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/users.css' %}">
 <div class="registration-container">
     <h1>Customer Registration</h1>
 
@@ -40,9 +41,9 @@
     </form>
 
     <div class="login-section">
-        <p>Have an account?</p>
+        <p>Already have an account?</p>
         <a href="{% url 'users:login_user' %}" class="login-link">Log in</a>
     </div>
 </div>
-
+<script src="{% static 'js/users.js' %}"></script>
 {% endblock %}

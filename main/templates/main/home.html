@@ -1,5 +1,4 @@
 <!-- main/templates/main/home.html -->
-
 {% extends 'main/base.html' %}
 {% load static %}
 {% block content %}
@@ -15,35 +14,51 @@
     </div>
 </section>
 <section class="popular-tasks">
-    <div class="container">
+    <div class="task-container">
         <div class="popular-tasks-header">
             <h2>Most Requested Services</h2>
             <a href="/services/" class="see-all">See all</a>
         </div>
-        <div class="task-slider">
-            <div class="task-grid" id="taskGrid">
-                {% for service in most_requested_services %}
-                    <div class="task-item">
-                        <h3>{{ service.name }}</h3>
-                        <p>{{ service.description|truncatewords:20 }}</p>
-                        <p2>by <a href="/company/{{service.company.user}}">{{service.company.user}}</a></p2>
-                        <a href="/services/{{ service.id }}/" class="btn btn-primary">Book Now</a>
-                    </div>
-                {% empty %}
-                    <p>No services available at the moment.</p>
-                {% endfor %}
-            </div>
-            <div class="slider-controls">
-                <button class="slider-control prev" onclick="slideServices(-1)">&#10094;</button>
-                <button class="slider-control next" onclick="slideServices(1)">&#10095;</button>
-            </div>
+        <div class="task-grid">
+            {% for service in most_requested_services %}
+                <div class="task-item">
+                    <h3>{{ service.name }}</h3>
+                    <p>{{ service.description|truncatewords:20 }}</p>
+                    {% if not request.user.is_authenticated %}
+                        <p2>by {{service.company.user}}</p2>
+                    {% elif request.user.is_authenticated %}
+                        <p2>by <a href="/users/profile/{{service.company.user}}">{{service.company.user}}</a></p2>
+                    {% endif %}
+                    {% if request.user.is_authenticated and request.user.is_customer %}
+                        <a href="/services/{{ service.id }}" class="btn btn-primary">Book Now</a>
+                    {% elif not request.user.is_authenticated %}
+                        <a href="{% url 'users:login_user' %}" class="btn btn-primary">Book Now</a>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No services available at the moment.</p>
+            {% endfor %}
         </div>
     </div>
 </section>
 <section class="features">
     <div class="container">
         <div class="features-grid">
-            <!-- Feature items... -->
+            <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <h3>Trusted Professionals</h3>
+                <p>All our service providers are vetted and background-checked.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-clock"></i>
+                <h3>Flexible Scheduling</h3>
+                <p>Book services at your convenience, 7 days a week.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Satisfaction Guaranteed</h3>
+                <p>We ensure quality service or your money back.</p>
+            </div>
         </div>
     </div>
 </section>

@@ -32,10 +32,7 @@
                         <p>Field: {{ service.field }}</p>
                         <p>by: {{ service.company.user.username }}</p>
                     </div>
-                <div>
-                    {% if forloop.counter != services|length %}
-                        <div class="line"></div>
-                    {% endif %}
+                </div>
                 {% endfor %}
             </ul>
         {% else %}

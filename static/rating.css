@@ -23,3 +23,34 @@
     overflow: hidden;
     color: #ffd700;
 }
+
+/* rating */
+
+.star-rating {
+    font-size: 24px; /* Adjust the size of the stars */
+    color: #ccc;     /* Default color for empty stars */
+    position: relative;
+    display: inline-block;
+}
+
+.star-rating .star {
+    color: #ccc;     /* Default color for stars */
+}
+
+.star-rating .filled {
+    color: #f5c518;  /* Color for filled stars (gold color) */
+}
+
+.star-rating .half-filled {
+    position: relative;
+    display: inline-block;
+}
+
+.star-rating .half-filled::before {
+    content: '★';      /* Half-filled star overlay */
+    position: absolute;
+    color: #f5c518;    /* Color for the filled part */
+    width: 50%;
+    overflow: hidden;
+}
+

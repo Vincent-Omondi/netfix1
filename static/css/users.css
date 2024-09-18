@@ -140,12 +140,6 @@ body, html {
     padding: 20px;
 }
 
-.star-rating {
-    color: #f1c40f;
-    font-size: 18px;
-    margin: 10px 0;
-}
-
 button {
     background-color: var(--secondary-color);
     color: var(--white-color);

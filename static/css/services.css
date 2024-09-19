@@ -173,18 +173,6 @@ body {
   color: var(--color-text-lighter);
 }
 
-/* .star-rating {
-  display: flex;
-  align-items: center;
-  margin-bottom: var(--spacing-small);
-}
-
-.star-rating .star {
-  color: var(--color-star);
-  font-size: 18px;
-  margin-right: 2px;
-} */
-
 .price {
   font-weight: 600;
   color: var(--color-primary);
@@ -327,5 +315,94 @@ body {
 
   .service-field {
       font-size: 20px;
+  }
+}
+
+/* request services */
+
+.request-service-container {
+  max-width: 500px;
+  margin: var(--spacing-xlarge) auto;
+  padding: var(--spacing-large);
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.price-info {
+  font-size: var(--font-size-large);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-large);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form p {
+  margin-bottom: var(--spacing-medium);
+}
+
+form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: var(--spacing-small);
+  color: var(--color-text-light);
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="number"],
+form textarea {
+  width: 100%;
+  padding: var(--spacing-small);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="number"]:focus,
+form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .request-service-container {
+    padding: var(--spacing-medium);
+    margin: var(--spacing-medium);
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .price-info {
+    font-size: var(--font-size-base);
   }
 }

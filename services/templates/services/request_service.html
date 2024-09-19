@@ -5,7 +5,9 @@
     Request Service
 {% endblock %}
 {% block content %}
-<div class="container">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/services.css' %}">
+<div class="request-service-container">
     <h2 class="title">Request Service: {{ service.name }}</h2>
     <p>Price per hour: ${{ service.price_hour }}</p>
     <form method="POST">

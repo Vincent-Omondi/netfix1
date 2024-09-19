@@ -27,18 +27,18 @@
 /* rating */
 
 .star-rating {
-    font-size: 24px; /* Adjust the size of the stars */
-    color: #ccc;     /* Default color for empty stars */
+    font-size: 24px; 
+    color: #ccc;    
     position: relative;
     display: inline-block;
 }
 
 .star-rating .star {
-    color: #ccc;     /* Default color for stars */
+    color: #ccc;    
 }
 
 .star-rating .filled {
-    color: #f5c518;  /* Color for filled stars (gold color) */
+    color: #f5c518; 
 }
 
 .star-rating .half-filled {
@@ -47,9 +47,9 @@
 }
 
 .star-rating .half-filled::before {
-    content: '★';      /* Half-filled star overlay */
+    content: '★';     
     position: absolute;
-    color: #f5c518;    /* Color for the filled part */
+    color: #f5c518;    
     width: 50%;
     overflow: hidden;
 }

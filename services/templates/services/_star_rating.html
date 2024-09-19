@@ -1,6 +1,6 @@
 <!-- templates/services/_star_rating.html -->
 {% load static %}
-<link rel="stylesheet" href="{% static 'rating.css' %}">
+<link rel="stylesheet" href="{% static 'css/rating.css' %}">
 <div class="star-rating" title="{{ rating|floatformat:1 }} out of 5 stars">
     {% for i in "12345" %}
         <span class="star {% if rating >= forloop.counter %}filled{% elif rating >= forloop.counter|add:'-0.5' %}half-filled{% endif %}">★</span>

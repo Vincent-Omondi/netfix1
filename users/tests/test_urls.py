@@ -1,3 +1,4 @@
+# users/tests/test_urls.py
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 from users import views as v
@@ -37,8 +38,8 @@ class TestUrls(SimpleTestCase):
     def test_url_names(self):
         print("\nTesting URL names...")
         self.assertEquals(reverse('users:register'), '/users/')
-        self.assertEquals(reverse('users:register_company'), '/company/')
-        self.assertEquals(reverse('users:register_customer'), '/customer/')
-        self.assertEquals(reverse('users:login_user'), '/login/')
-        self.assertEquals(reverse('users:profile', args=['testuser']), '/profile/testuser/')
+        self.assertEquals(reverse('users:register_company'), '/users/company/')
+        self.assertEquals(reverse('users:register_customer'), '/users/customer/')
+        self.assertEquals(reverse('users:login_user'), '/users/login/')
+        self.assertEquals(reverse('users:profile', args=['testuser']), '/users/profile/testuser/')
         print("All URL names resolve to correct paths.")

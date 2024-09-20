@@ -24,6 +24,7 @@ def home(request):
     }
     return render(request, "main/home.html", context)
     
-def error_view(request, exception=None):
-    status_code = request.GET.get('code', '500')
-    return render(request, 'error.html', status=int(status_code))
+def error_view(request, exception=None, status=None):
+    # Use the status code passed by Django (if it's provided)
+    status_code = status if status else 500
+    return render(request, 'error.html', {'code': status_code}, status=status_code)

@@ -1,3 +1,4 @@
+# main/views.py
 from django.shortcuts import render
 from django.contrib.auth import logout as django_logout
 from django.db.models import Count

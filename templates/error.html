@@ -27,7 +27,7 @@
             --spacing-large: 30px;
             --spacing-xlarge: 40px;
 
-            --container-max-width: 800px;
+            --container-max-width: 450px;
             --border-radius: 8px;
             --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -48,7 +48,7 @@
 
         .error-container {
             max-width: var(--container-max-width);
-            padding: var(--spacing-large);
+            padding: var(--spacing-small);
             background-color: var(--color-white);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
@@ -168,8 +168,7 @@
         }
 
         // Get the error code from the URL or use a default
-        const urlParams = new URLSearchParams(window.location.search);
-        const errorCode = urlParams.get('code') || 'default';
+        const errorCode = '{{ code }}' || 'default';
         setErrorContent(errorCode);
     </script>
 </body>

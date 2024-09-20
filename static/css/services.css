@@ -94,7 +94,8 @@ body {
 
 /* Sort options */
 .sort-options {
-  margin-bottom: var(--spacing-large);
+  margin-bottom: 11px;
+  max-width: 150px;
 }
 
 .sort-options label {

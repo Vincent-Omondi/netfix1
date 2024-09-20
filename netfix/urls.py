@@ -11,7 +11,8 @@ urlpatterns = [
     path('', include('main.urls')),  # Include main app URLs
 ]
 
-handler400 = error_view
-handler403 = error_view
-handler404 = error_view
-handler500 = error_view
+
+handler400 = lambda request, exception=None: error_view(request, exception, status=400)
+handler403 = lambda request, exception=None: error_view(request, exception, status=403)
+handler404 = lambda request, exception=None: error_view(request, exception, status=404)
+handler500 = lambda request: error_view(request, status=500)

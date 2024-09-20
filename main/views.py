@@ -1,3 +1,4 @@
+# main/views.py
 from django.shortcuts import render
 from django.contrib.auth import logout as django_logout
 from django.db.models import Count
@@ -23,3 +24,6 @@ def home(request):
     }
     return render(request, "main/home.html", context)
     
+def error_view(request, exception=None):
+    status_code = request.GET.get('code', '500')
+    return render(request, 'error.html', status=int(status_code))

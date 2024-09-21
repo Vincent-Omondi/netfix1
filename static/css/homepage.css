@@ -42,6 +42,12 @@
     margin: 0 auto;
     padding: 0 var(--spacing-medium);
   }
+
+  .footer-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-medium);
+  }
   
   header {
     background-color: var(--color-white);
@@ -103,20 +109,41 @@
     padding-top: 70px;
   }
   
+
   .hero {
-    background-color: var(--color-background);
+    position: relative;
+    background-color: var(--color-background); 
+    background-image: url('../cleaning.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
     padding: var(--spacing-xlarge) 0 var(--spacing-large);
+    color: var(--color-white);
   }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1; 
+}
   
   .hero-content {
     max-width: 600px;
+    position: relative;
+    z-index: 2;
+    /* margin: 0 auto; */
   }
   
   h1 {
     font-size: var(--font-size-xxlarge);
     font-weight: 700;
     margin-bottom: var(--spacing-medium);
-    color: var(--color-text);
+    color: var(--color-white);
   }
   
   .search-bar {

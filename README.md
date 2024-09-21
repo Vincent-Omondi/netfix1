@@ -96,8 +96,8 @@ To set up and run the project, follow these steps:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/Vincent-Omondi/netfix1.git
-   cd netfix1
+   git clone https://github.com/Vincent-Omondi/netfix.git
+   cd netfix
    ```
 
 2. Create a virtual environment:
@@ -195,7 +195,7 @@ pip install django==3.1.14
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under a **Custom License** that restricts commercial use. See the [LICENSE](./LICENSE) file for details.
 
 ## Contact
 

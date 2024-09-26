@@ -28,7 +28,7 @@
                     <p>{{ service.description }}</p>
                     {% include "services/_star_rating.html" with rating=service.rating %}
                     <div class="service-meta">
-                        <p class = "price">Price: €{{ service.price_hour }}/hour</p>
+                        <p class = "price">Price: ${{ service.price_hour }}/hour</p>
                         <p>Field: {{ service.field }}</p>
                         <p>by: {{ service.company.user.username }}</p>
                     </div>

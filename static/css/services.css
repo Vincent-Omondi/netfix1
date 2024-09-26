@@ -156,9 +156,9 @@ body {
   transition: color 0.3s ease;
 }
 
-.service-item h3 a:hover {
+/* .service-item h3 a:hover {
   color: var(--color-primary-dark);
-}
+} */
 
 .service-item p {
   margin: 8px 0;
@@ -405,5 +405,97 @@ form textarea:focus {
 
   .price-info {
     font-size: var(--font-size-base);
+  }
+}
+
+/* create services */
+
+.create-service-container {
+  max-width: 600px;
+  margin: var(--spacing-xlarge) auto;
+  padding: var(--spacing-large);
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.create-service-title {
+  font-size: var(--font-size-xlarge);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-large);
+  text-align: center;
+}
+
+.create-service-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-service-form-group {
+  margin-bottom: var(--spacing-medium);
+}
+
+.create-service-label {
+  display: block;
+  margin-bottom: var(--spacing-small);
+  font-weight: 500;
+  color: var(--color-text-light);
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.create-service-submit-btn {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.create-service-submit-btn:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+.errorlist {
+  color: #ff3860;
+  list-style-type: none;
+  padding: 0;
+  margin: 5px 0 0;
+  font-size: var(--font-size-small);
+}
+
+@media (max-width: 768px) {
+  .create-service-container {
+    margin: var(--spacing-medium);
+    padding: var(--spacing-medium);
+  }
+
+  .create-service-title {
+    font-size: 28px;
   }
 }

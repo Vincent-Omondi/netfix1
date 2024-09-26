@@ -4,6 +4,8 @@
     Create New Service
 {% endblock %}
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/services.css' %}">
     <div class="create-service-container">
         <h1 class="create-service-title">Create New Service</h1>
         <form method="post" class="create-service-form">

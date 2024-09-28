@@ -1,5 +1,6 @@
 # services/views.py
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -88,7 +89,13 @@ def profile(request, username):
 
 # Display services by field
 def service_field(request, field):
+    # Convert field slug to title, e.g., 'air-conditioner' -> 'Air Conditioner'
     field = field.replace('-', ' ').title()
+
+    # check if the field is in the allowed fields
+    if field not in dict(Service.CATEGORY_CHOICES).keys():
+        raise Http404("Service field not found")
+
     sort_by = request.GET.get('sort_by', 'date')  # Default sorting by date
 
     if sort_by == 'requests':

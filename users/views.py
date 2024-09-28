@@ -47,6 +47,9 @@ class CompanySignUpView(CreateView):
 
 @csrf_exempt
 def loginUserView(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():

@@ -1,22 +1,17 @@
 # services/views.py
-
-from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required 
-from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-
-from users.models import Company, Customer, User
-
-from .models import Service, ServiceHistory
-from .forms import CreateNewService, RequestServiceForm
+from django.http import HttpResponseRedirect, JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.views.decorators.http import require_POST
-from django.db.models import Avg
+from django.db.models import Avg, Count
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
-from django.http import JsonResponse
+from users.models import Company, Customer, User
+from .models import Service, ServiceHistory
+from .forms import CreateNewService, RequestServiceForm
 
-
+# List all services
 def service_list(request):
     sort_by = request.GET.get('sort_by', 'date')  # Default sorting by date
 
@@ -29,6 +24,7 @@ def service_list(request):
 
     return render(request, 'services/list.html', {'services': services, 'sort_by': sort_by})
 
+# Display service detail or field
 def service_detail_or_field(request, id_or_field):
     try:
         # Try to get a service by id
@@ -38,24 +34,23 @@ def service_detail_or_field(request, id_or_field):
         # If id_or_field is not an integer, treat it as a field
         return service_field(request, id_or_field)
 
+# Display single service
 def index(request, id):
     service = Service.objects.get(id=id)
     
     # Fetch the service history for the logged-in customer if available
-    service_history = ServiceHistory.objects.filter(service=service, customer=request.user.customer).first() if request.user.is_authenticated and hasattr(request.user, 'customer') else None
+    service_history = None
+    if request.user.is_authenticated and hasattr(request.user, 'customer'):
+        service_history = ServiceHistory.objects.filter(service=service, customer=request.user.customer).first()
 
     return render(request, 'services/single_service.html', {
         'service': service,
         'service_history': service_history,
     })
 
-
-
+# Create a new service
 @login_required
 def services_create(request):
-    # if not hasattr(request.user, 'company'):
-    #     return redirect('/')
-    
     if request.method == 'POST':
         form = CreateNewService(request.POST, company=request.user.company)
         if form.is_valid():
@@ -68,11 +63,7 @@ def services_create(request):
     
     return render(request, 'services/create.html', {'form': form})
 
-
-def request_service(request, id):
-    return render(request, 'services/request_service.html', {})
-
-
+# Request a service
 @login_required
 def request_service(request, id):
     service = get_object_or_404(Service, id=id)
@@ -90,12 +81,12 @@ def request_service(request, id):
     
     return render(request, 'services/request_service.html', {'form': form, 'service': service})
 
-def profile(request, uername):
-
+# Display user profile
+def profile(request, username):
+    # TODO: Implement profile view
     pass
 
-from django.db.models import Count
-
+# Display services by field
 def service_field(request, field):
     field = field.replace('-', ' ').title()
     sort_by = request.GET.get('sort_by', 'date')  # Default sorting by date
@@ -109,7 +100,7 @@ def service_field(request, field):
 
     return render(request, 'services/field.html', {'services': services, 'field': field, 'sort_by': sort_by})
 
-
+# Delete a service
 @login_required
 def delete_service(request, id):
     service = get_object_or_404(Service, id=id)
@@ -123,7 +114,7 @@ def delete_service(request, id):
     
     return redirect('users:profile', username=request.user.username)
 
-
+# Rate a service
 @login_required
 @require_POST
 def rate_service(request, service_history_id):

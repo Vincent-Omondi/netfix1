@@ -1,51 +1,48 @@
 # users/forms.py
 
-
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, authenticate
-from django.db import transaction
+from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-
 from .models import User, Company, Customer
 
-
+# Custom widget for date input
 class DateInput(forms.DateInput):
     input_type = 'date'
 
-
+# Custom email validation function
 def validate_email(value):
-    # In case the email already exists in an email input in a registration form, this function is fired
+    """
+    Validate that the email is not already in use.
+    """
     if User.objects.filter(email=value).exists():
-        raise ValidationError(
-            value + " is already taken.")
+        raise ValidationError(f"{value} is already taken.")
 
-
-class CustomerSignUpForm(UserCreationForm):
-    birth = forms.DateField(
-        label="Choose a birth",
-        widget = DateInput(attrs={'type': 'date'}),
-    )
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
-        user.is_customer = True
-        if commit:
-            user.save()
-
-            if self.cleaned_data.get("birth"):
-                birth = self.cleaned_data["birth"]
-                customer = Customer(user=user, birth=birth)
-                customer.save()
-
-        return user
+# Base form for user creation
+class BaseUserCreationForm(UserCreationForm):
+    email = forms.EmailField(validators=[validate_email])
 
     class Meta:
         model = User
         fields = ("username", "email")
 
+# Form for customer sign up
+class CustomerSignUpForm(BaseUserCreationForm):
+    birth = forms.DateField(
+        label="Date of Birth",
+        widget=DateInput(attrs={'type': 'date'}),
+    )
 
-class CompanySignUpForm(UserCreationForm):
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_customer = True
+        if commit:
+            user.save()
+            if self.cleaned_data.get("birth"):
+                Customer.objects.create(user=user, birth=self.cleaned_data["birth"])
+        return user
+
+# Form for company sign up
+class CompanySignUpForm(BaseUserCreationForm):
     field_of_work_choices = [
         ('Air Conditioner', 'Air Conditioner'),
         ('All in One', 'All in One'),
@@ -67,33 +64,50 @@ class CompanySignUpForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
         user.is_company = True
         if commit:
             user.save()
-
             if self.cleaned_data.get("field_of_work"):
-                company_field = self.cleaned_data["field_of_work"]
-                company = Company(user=user, field=company_field)
-                company.save()
-
+                Company.objects.create(user=user, field=self.cleaned_data["field_of_work"])
         return user
 
-    class Meta:
-        model = User
-        fields = ("username", "email",)
-
+# Form for user login
 class UserLoginForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    def __init__(self, *args, **kwargs):
-        super(UserLoginForm, self).__init__(*args, **kwargs)
-
-    email = forms.EmailField(widget=forms.TextInput(
-        attrs={'placeholder': 'Enter Email'}))
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Email',
+            'autocomplete': 'off'
+        })
+    )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password'}))
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter Password'
+        })
+    )
 
-    # def __init__(self, *args, **kwargs):
-    #     super(UserLoginForm, self).__init__(*args, **kwargs)
-    #     self.fields['email'].widget.attrs['autocomplete'] = 'off'
+    def clean(self):
+        """
+        Custom clean method to authenticate the user.
+        """
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+
+        if email and password:
+            user = User.objects.filter(email=email).first()
+            if user and user.check_password(password):
+                if not user.is_active:
+                    raise forms.ValidationError("This account is inactive.")
+            else:
+                raise forms.ValidationError("Invalid email or password.")
+
+        return cleaned_data
+
+    def get_user(self):
+        """
+        Return the authenticated user.
+        """
+        email = self.cleaned_data.get('email')
+        return User.objects.filter(email=email).first()

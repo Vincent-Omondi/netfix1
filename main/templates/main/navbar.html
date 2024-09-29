@@ -6,12 +6,10 @@
             <img src="{% static 'logo.png' %}" alt="Netfix" class="logo">
         </a>
         <ul class="nav-links">
-            <li><a href="{% url 'main:home' %}">Home</a></li>
             <li class="services-dropdown">
                 <a href="{% url 'services:services_list' %}" class="dropdown-toggle">Services</a>
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'services:services_field' 'air-conditioner' %}">Air Conditioner</a></li>
-                    <li><a href="{% url 'services:services_field' 'all-in-one' %}">All in One</a></li>
                     <li><a href="{% url 'services:services_field' 'carpentry' %}">Carpentry</a></li>
                     <li><a href="{% url 'services:services_field' 'electricity' %}">Electricity</a></li>
                     <li><a href="{% url 'services:services_field' 'gardening' %}">Gardening</a></li>

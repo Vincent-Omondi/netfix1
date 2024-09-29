@@ -1,23 +1,27 @@
 # users/views.py
 
+# Django imports
 from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, get_user_model
 from django.views.generic import CreateView
-from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.decorators import login_required
-from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
-from .models import User, Customer, Company 
-from services.models import Service, ServiceHistory 
+from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import PermissionDenied
 
+# Local imports
+from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
+from .models import User, Customer, Company
+from services.models import Service, ServiceHistory
 
 User = get_user_model()
+
 def register(request):
+    """View for choosing registration type."""
     return render(request, 'users/register.html')
 
 class CustomerSignUpView(CreateView):
+    """View for customer registration."""
     model = User
     form_class = CustomerSignUpForm
     template_name = 'users/register_customer.html'
@@ -32,6 +36,7 @@ class CustomerSignUpView(CreateView):
         return redirect('/')
 
 class CompanySignUpView(CreateView):
+    """View for company registration."""
     model = User
     form_class = CompanySignUpForm
     template_name = 'users/register_company.html'
@@ -47,42 +52,49 @@ class CompanySignUpView(CreateView):
 
 @csrf_exempt
 def loginUserView(request):
+    """View for user login."""
     if request.user.is_authenticated:
         return redirect('/')
 
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-
-            try:
-                user = User.objects.get(email=email)
-                authenticated_user = authenticate(request, username=email, password=password)
-                if authenticated_user is not None:
-                    login(request, authenticated_user)
-                    return redirect('/')  # Make sure this URL name is defined in your urls.py
-                else:
-                    messages.error(request, f"Authentication failed for user: {email}")
-            except User.DoesNotExist:
-                messages.error(request, "User does not exist.")
+            user = form.get_user()
+            login(request, user)
+            next_url = request.GET.get('next', '/')
+            return redirect(next_url)
         else:
-            messages.error(request, "Form is not valid.")
+            # Generic error message for all login failures
+            messages.error(request, "Invalid login credentials. Please try again.")
     else:
         form = UserLoginForm()
-    
+   
     return render(request, 'users/login.html', {'form': form})
-
 
 @login_required
 def profile(request, username):
-    user = User.objects.get(username=username)
+    """View for user profile."""
+    user = get_object_or_404(User, username=username)
+    
+    # Access control
+    if request.user != user:
+        if user.is_customer and not request.user.is_company:
+            raise PermissionDenied
+        elif user.is_company and request.user.is_company:
+            raise PermissionDenied
+
     context = {'user': user}
-    if user.is_customer:
-        service_history = ServiceHistory.objects.filter(customer=user.customer).order_by('-request_date')
-        context['sh'] = service_history
-        context['age'] = user.customer.age()
-    else:
-        services = Service.objects.filter(company=user.company).order_by('-date')
-        context['services'] = services
+
+    try:
+        if user.is_customer:
+            service_history = ServiceHistory.objects.filter(customer=user.customer).order_by('-request_date')
+            context['sh'] = service_history
+            context['age'] = user.customer.age()
+        elif user.is_company:
+            services = Service.objects.filter(company=user.company).order_by('-date')
+            context['services'] = services
+    except (Customer.DoesNotExist, Company.DoesNotExist):
+        messages.error(request, "User profile is incomplete.")
+        return redirect(reverse('home'))  # Adjust 'home' to your home page URL name
+
     return render(request, 'users/profile.html', context)

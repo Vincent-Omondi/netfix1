@@ -1,44 +1,55 @@
 /* static/rating.css */
 
+:root {
+    --star-color: #ccc;
+    --filled-star-color: #ffd700;
+    --rating-star-color: #f5c518;
+    --font-size-large: 48px;
+    --font-size-medium: 24px;
+}
+
 .star-rating {
     width: 100%;
     max-width: 300px;
     margin: 20px 0;
 }
+
 #star-container {
     display: flex;
     justify-content: space-between;
-    font-size: 48px;
+    font-size: var(--font-size-large);
     touch-action: none;
 }
+
 .star {
     position: relative;
-    color: #ccc;
+    color: var(--star-color);
     cursor: pointer;
 }
+
 .star-fill {
     position: absolute;
     top: 0;
     left: 0;
     overflow: hidden;
-    color: #ffd700;
+    color: var(--filled-star-color);
 }
 
 /* rating */
 
 .star-rating {
-    font-size: 24px; 
-    color: #ccc;    
+    font-size: var(--font-size-medium); 
+    color: var(--star-color);    
     position: relative;
     display: inline-block;
 }
 
 .star-rating .star {
-    color: #ccc;    
+    color: var(--star-color);    
 }
 
 .star-rating .filled {
-    color: #f5c518; 
+    color: var(--rating-star-color); 
 }
 
 .star-rating .half-filled {
@@ -49,8 +60,7 @@
 .star-rating .half-filled::before {
     content: '★';     
     position: absolute;
-    color: #f5c518;    
+    color: var(--rating-star-color);    
     width: 50%;
     overflow: hidden;
 }
-

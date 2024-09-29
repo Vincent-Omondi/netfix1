@@ -10,6 +10,7 @@
   --color-text-lighter: #888;
   --color-border: #e0e0e0;
   --color-star: #ffd700;
+  --color-error: #ff3860;
 
   /* Typography */
   --font-family: 'Poppins', sans-serif;
@@ -28,6 +29,12 @@
   --container-max-width: 1200px;
   --border-radius: 8px;
   --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* New custom properties */
+  --transition-duration: 0.3s;
+  --input-padding: 10px;
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
 }
 
 /* Base styles */
@@ -40,7 +47,8 @@ body {
 }
 
 /* Container */
-.services_list_container {
+.services_list_container,
+.services_field_container {
   max-width: var(--container-max-width);
   margin: var(--spacing-xlarge) auto;
   padding: var(--spacing-large);
@@ -48,16 +56,6 @@ body {
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
 }
-
-/* Container */
-.services_field_container {
-    max-width: var(--container-max-width);
-    margin: var(--spacing-xlarge) auto;
-    padding: var(--spacing-large);
-    background-color: var(--color-white);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-  }
 
 /* Header */
 .header {
@@ -84,7 +82,7 @@ body {
   border-radius: var(--border-radius);
   text-decoration: none;
   font-weight: 500;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
 }
 
 .create_service:hover {
@@ -112,7 +110,7 @@ body {
   font-size: var(--font-size-small);
   background-color: var(--color-white);
   cursor: pointer;
-  transition: border-color 0.3s ease;
+  transition: border-color var(--transition-duration) ease;
 }
 
 .sort-options select:focus {
@@ -128,11 +126,11 @@ body {
 }
 
 .service-item {
-  background-color: var(--color-white);
+  background-color: #f0f8fc;
   border-radius: var(--border-radius);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 25px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
   display: flex;
   flex-direction: column;
   border: 1px solid var(--color-border);
@@ -140,7 +138,7 @@ body {
 
 .service-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); */
 }
 
 .service-item h3 {
@@ -153,7 +151,7 @@ body {
   color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.3s ease;
+  transition: color var(--transition-duration) ease;
 }
 
 /* .service-item h3 a:hover {
@@ -180,7 +178,7 @@ body {
 }
 
 /* Media Queries */
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-tablet)) {
   .services_list_container {
     padding: var(--spacing-medium);
     margin: var(--spacing-medium);
@@ -221,7 +219,7 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: var(--breakpoint-mobile)) {
   .services_list {
     grid-template-columns: 1fr;
   }
@@ -231,96 +229,93 @@ body {
   }
 }
 
-
 /* Single service container */
-
 .single-service-container {
   max-width: 800px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin: var(--spacing-xlarge) auto;
+  padding: var(--spacing-large);
+  background-color: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
 
 .service_info_header {
-  border-bottom: 2px solid #00a7bd;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: var(--spacing-medium);
+  margin-bottom: var(--spacing-medium);
 }
 
 .service_info_header h1 {
-  font-size: 32px;
-  color: #00a7bd;
-  margin-bottom: 10px;
+  font-size: var(--font-size-xlarge);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-small);
 }
 
 .service_info_header h5 {
-  font-size: 18px;
-  color: #666;
+  font-size: var(--font-size-base);
+  color: var(--color-text-light);
   margin: 0;
 }
 
 .service_info_header h5 a {
-  color: #00a7bd;
+  color: var(--color-primary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color var(--transition-duration) ease;
 }
 
 .service_info_header h5 a:hover {
-  color: #008ca1;
+  color: var(--color-primary-dark);
 }
 
 .service-field {
-  font-size: 22px;
-  color: #51535f;
-  margin-bottom: 20px;
+  font-size: var(--font-size-large);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-medium);
 }
 
 .service-description {
-  font-size: 16px;
+  font-size: var(--font-size-base);
   line-height: 1.6;
-  color: #51535f;
-  margin-bottom: 30px;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-large);
 }
 
 .request-service-btn {
   display: inline-block;
-  background-color: #00a7bd;
-  color: #fff;
+  background-color: var(--color-primary);
+  color: var(--color-white);
   padding: 12px 24px;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   text-decoration: none;
   font-weight: 500;
-  font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: var(--font-size-base);
+  transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
 }
 
 .request-service-btn:hover {
-  background-color: #008ca1;
+  background-color: var(--color-primary-dark);
   transform: translateY(-2px);
 }
 
 @media (max-width: 600px) {
-  .service-container {
-      padding: 20px;
+  .single-service-container {
+    padding: var(--spacing-medium);
   }
 
   .service_info_header h1 {
-      font-size: 28px;
+    font-size: 28px;
   }
 
   .service_info_header h5 {
-      font-size: 16px;
+    font-size: var(--font-size-small);
   }
 
   .service-field {
-      font-size: 20px;
+    font-size: var(--font-size-large);
   }
 }
 
-/* request services */
-
+/* Request services */
 .request-service-container {
   max-width: 500px;
   margin: var(--spacing-xlarge) auto;
@@ -357,12 +352,12 @@ form input[type="email"],
 form input[type="number"],
 form textarea {
   width: 100%;
-  padding: var(--spacing-small);
+  padding: var(--input-padding);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   font-family: var(--font-family);
   font-size: var(--font-size-base);
-  transition: border-color 0.3s ease;
+  transition: border-color var(--transition-duration) ease;
 }
 
 form input[type="text"]:focus,
@@ -385,7 +380,7 @@ form textarea:focus {
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
 }
 
 .btn-primary:hover {
@@ -408,8 +403,7 @@ form textarea:focus {
   }
 }
 
-/* create services */
-
+/* Create services */
 .create-service-container {
   max-width: 600px;
   margin: var(--spacing-xlarge) auto;
@@ -447,12 +441,12 @@ input[type="number"],
 textarea,
 select {
   width: 100%;
-  padding: 10px;
+  padding: var(--input-padding);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   font-family: var(--font-family);
   font-size: var(--font-size-base);
-  transition: border-color 0.3s ease;
+  transition: border-color var(--transition-duration) ease;
 }
 
 input[type="text"]:focus,
@@ -473,7 +467,7 @@ select:focus {
   font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
 }
 
 .create-service-submit-btn:hover {
@@ -482,14 +476,14 @@ select:focus {
 }
 
 .errorlist {
-  color: #ff3860;
+  color: var(--color-error);
   list-style-type: none;
   padding: 0;
   margin: 5px 0 0;
   font-size: var(--font-size-small);
 }
 
-@media (max-width: 768px) {
+@media (max-width: var(--breakpoint-tablet)) {
   .create-service-container {
     margin: var(--spacing-medium);
     padding: var(--spacing-medium);

@@ -4,6 +4,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from .models import User, Company, Customer
+from django.utils import timezone
+from datetime import timedelta
 
 # Custom widget for date input
 class DateInput(forms.DateInput):
@@ -31,6 +33,15 @@ class CustomerSignUpForm(BaseUserCreationForm):
         label="Date of Birth",
         widget=DateInput(attrs={'type': 'date'}),
     )
+
+    def clean_birth(self):
+        birth = self.cleaned_data.get("birth")
+        min_age_date = timezone.now().date() - timedelta(days=10 * 365)
+        
+        if birth and birth > min_age_date:
+            raise forms.ValidationError("You must be at least 10 years old.")
+
+        return birth
 
     def save(self, commit=True):
         user = super().save(commit=False)

@@ -52,6 +52,11 @@ def index(request, id):
 # Create a new service
 @login_required
 def services_create(request):
+    # Check if user is a company
+    if not hasattr(request.user, 'company'):
+        return redirect('services:services_list')
+    
+    # Create a new service form and handle form submission
     if request.method == 'POST':
         form = CreateNewService(request.POST, company=request.user.company)
         if form.is_valid():
@@ -67,6 +72,10 @@ def services_create(request):
 # Request a service
 @login_required
 def request_service(request, id):
+    # check if user is customer
+    if not hasattr(request.user, 'customer'):
+        return redirect('services:services_list')
+    
     service = get_object_or_404(Service, id=id)
     if request.method == 'POST':
         form = RequestServiceForm(request.POST)

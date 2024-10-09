@@ -70,4 +70,4 @@ venv.bak/
 Thumbs.db
 migrations 
 
-# Static files
+setup.sh

@@ -1,0 +1,66 @@
+/* static/rating.css */
+
+:root {
+    --star-color: #ccc;
+    --filled-star-color: #ffd700;
+    --rating-star-color: #f5c518;
+    --font-size-large: 48px;
+    --font-size-medium: 24px;
+}
+
+.star-rating {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px 0;
+}
+
+#star-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-large);
+    touch-action: none;
+}
+
+.star {
+    position: relative;
+    color: var(--star-color);
+    cursor: pointer;
+}
+
+.star-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    color: var(--filled-star-color);
+}
+
+/* rating */
+
+.star-rating {
+    font-size: var(--font-size-medium); 
+    color: var(--star-color);    
+    position: relative;
+    display: inline-block;
+}
+
+.star-rating .star {
+    color: var(--star-color);    
+}
+
+.star-rating .filled {
+    color: var(--rating-star-color); 
+}
+
+.star-rating .half-filled {
+    position: relative;
+    display: inline-block;
+}
+
+.star-rating .half-filled::before {
+    content: '★';     
+    position: absolute;
+    color: var(--rating-star-color);    
+    width: 50%;
+    overflow: hidden;
+}

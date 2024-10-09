@@ -47,6 +47,7 @@ class RequestServiceForm(forms.ModelForm):
     )
     service_time = forms.IntegerField(
         min_value=1, 
+        max_value= 100,
         widget=forms.NumberInput(attrs={'placeholder': 'Enter service time in hours'})
     )
 

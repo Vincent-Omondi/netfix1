@@ -20,3 +20,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+from netfix.wsgi import application as app
